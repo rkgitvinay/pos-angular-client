@@ -3,7 +3,7 @@
  */
 
 angular.module('iklinikPosApp')
-  .constant('ENV', {name: 'prod'})
+  .constant('ENV', {name: 'dev'})
 
   .constant('config', {
     API_DEV: 'http://localhost:8000/api',

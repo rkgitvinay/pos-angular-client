@@ -19,16 +19,13 @@
   <div class="login-page">
     <div class="form">
       <form class="login-form" ng-submit="submit()" promise-btn>
-        <input type="text" placeholder="username"/>
-        <input type="password" placeholder="password"/>
-        <select>
-          <option>Zürich</option>
-          <option>Zürich</option>
-          <option>Zürich</option>
-        </select>
+        <input type="text" ng-model="user.username" placeholder="{{'username' | translate}}" required/>
+        <input type="password" ng-model="user.password" placeholder="{{'password' | translate}}" required/>
+        <select ng-options="branch.name for branch in branches track by branch.id" ng-model="user.selectedBranch"></select>
         <button class="btn btn-primary" type="submit">login</button>
         <!--<p class="message">Not registered? <a href="#">Create an account</a></p>-->
       </form>
+      {{selectedBranch}}
     </div>
   </div>
 </div>

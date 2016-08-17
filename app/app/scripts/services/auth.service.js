@@ -3,20 +3,45 @@
  */
 
 angular.module('iklinikPosApp')
-  .service('AuthService', function ($http, $timeout, $q) {
+  .service('AuthService', function (HttpService, $timeout, $q, $window) {
 
-    function authenticate(username, password) {
-      var defer = $q.defer();
-      $timeout(function ()
-      {
-        defer.resolve({
-          msg: 'SUCCESS'
-        });
-      }, 20500);
-      return defer.promise;
+    var LS_TOKEN = 'token';
+
+    function authenticate(params) {
+      var deferred = $q.defer();
+
+      HttpService.POST(params, '/authenticate').then(function(response) {
+        if(response.httpState === 200) {
+          setToken(response.data.content);
+          deferred.resolve();
+        } else {
+          setToken('');
+          deferred.reject();
+        }
+      }, function() {
+        setToken('');
+        deferred.reject();
+      });
+
+      return deferred.promise;
+    }
+
+    function setToken(token) {
+      $window.localStorage.setItem(LS_TOKEN, token);
+    }
+
+    function getToken() {
+      var token = null;
+
+      try {
+        token = JSON.parse($window.localStorage.getItem(LS_TOKEN));
+      } catch(e) {}
+
+      return token;
     }
 
     return {
-      authenticate:authenticate
+      authenticate:authenticate,
+      getToken: getToken
     }
   });

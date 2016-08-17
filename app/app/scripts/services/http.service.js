@@ -3,9 +3,8 @@
  */
 
 angular.module('iklinikPosApp')
-  .service('HttpService', function ($http, ENV, config, $q, $window) {
+  .service('HttpService', function ($http, ENV, config, $q, $window, $injector) {
 
-    var LS_TOKEN = 'token';
     var HTTP_TIMEOUT = 10000; // in milliseconds
 
     var connectionToLowIsExecuted = false;
@@ -45,9 +44,11 @@ angular.module('iklinikPosApp')
     }
 
     function checkForToken() {
-      var token = $window.localStorage.getItem(LS_TOKEN);
+      var auth = $injector.get('AuthService');
 
-      if(token !== undefined && token !== '') {
+      var token = auth.getToken();
+
+      if(token !== undefined && token !== null) {
         httpConfig.headers.Authorization = 'Bearer ' + token;
       }
       else {
@@ -66,26 +67,21 @@ angular.module('iklinikPosApp')
     /*
      Handles all GET http service calls.
      */
-    function get(service, callback) {
+    function get(service) {
       console.log('HTTP GET Call: ' + service);
+      var deferred = $q.defer();
       checkForToken();
 
       $http
         .get(apiEndpoint + service, httpConfig)
-        .success(function (res, status) {
-          if(status === -1) {
-            connectionTooLow();
-          } else {
-            callback({result: res, status: status});
-          }
+        .success(function (res, state) {
+          deferred.resolve({data: res, httpState: state});
         })
-        .error(function (res, status) {
-          if(res !== null) {
-            callback({result: res, status: status});
-          } else {
-            callback({result: res, status: status});
-          }
+        .error(function (res, state) {
+          deferred.reject({data: [], httpState: state});
         });
+
+      return deferred.promise;
     };
 
     /*
@@ -93,24 +89,19 @@ angular.module('iklinikPosApp')
      */
     function post(params, service, callback) {
       console.log('HTTP POST Call: ' + service + ' Parameter: ' + JSON.stringify(params));
+      var deferred = $q.defer();
       checkForToken();
 
       $http
         .post(apiEndpoint + service, params, httpConfig)
-        .success(function (res, status) {
-          if(status === -1) {
-            connectionTooLow();
-          } else {
-            callback({result: res, status: status});
-          }
+        .success(function (res, state) {
+          deferred.resolve({data: [], httpState: state});
         })
-        .error(function (res, status) {
-          if(res !== null) {
-            callback({result: res, status: status});
-          } else {
-            callback({result: res, status: status});
-          }
+        .error(function (res, state) {
+          deferred.reject({data: [], httpState: state});
         });
+
+      return deferred.promise;
     };
 
     function connectionTooLow() {
