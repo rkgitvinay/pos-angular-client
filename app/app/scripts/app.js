@@ -18,9 +18,10 @@ angular
     'ngSanitize',
     'ngTouch',
     'pascalprecht.translate',
-    'ui.router'
+    'ui.router',
+    'angularPromiseButtons'
   ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, angularPromiseButtonsProvider) {
     $stateProvider
       .state('login', {
         url: '/login',
@@ -48,4 +49,12 @@ angular
         suffix: '.json'
       })
       .preferredLanguage('en');
+
+    angularPromiseButtonsProvider.extendConfig({
+      spinnerTpl: '<span class="btn-spinner"></span>',
+      disableBtn: true,
+      btnLoadingClass: 'is-loading',
+      addClassToCurrentBtnOnly: false,
+      disableCurrentBtnOnly: false
+    });
   });

@@ -8,10 +8,9 @@
  * Controller of the iklinikPosApp
  */
 angular.module('iklinikPosApp')
-  .controller('LoginCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('LoginCtrl', function ($scope, AuthService) {
+
+    $scope.submit = function() {
+      return AuthService.authenticate('test', 'test');
+    }
   });
