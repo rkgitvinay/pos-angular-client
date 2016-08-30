@@ -8,7 +8,7 @@
  * Controller of the iklinikPosApp
  */
 angular.module('iklinikPosApp')
-  .controller('LoginCtrl', function ($scope, AuthService, BranchService) {
+  .controller('LoginCtrl', function ($scope, AuthService, BranchService, $state, $filter) {
 
     function onLoad() {
       $scope.user = {username: '', password: '', selectedBranch: null};
@@ -25,10 +25,12 @@ angular.module('iklinikPosApp')
     onLoad();
 
     $scope.submit = function() {
+      $scope.alerts = [];
       return AuthService.authenticate($scope.user).then(function() {
-        console.log('login success');
+        BranchService.setSelectedBranch($scope.user.selectedBranch);
+        $state.go('dashboard');
       },function() {
-        console.log('login error');
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.wrongCredentials')});
       });
     }
   });

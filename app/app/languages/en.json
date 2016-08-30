@@ -1,3 +1,61 @@
 {
- "home": "Home"
+  "alerts": {
+    "passwordsDoNotMatch": "Your entered passwords do not match.",
+    "passwordMinimumLength": "The password must be at least 6 characters long.",
+    "product": {
+      "created": "The product has been created and is active immediately.",
+      "deleted": "The complete product and its data has been deleted.",
+      "fill_out_price_and_inventory_for_every_checked_product": "Add a value to every selected product attribute for product price and product inventory.",
+      "please_define_product_price_quantity_least_one_branch": "Define a product price and quantity for at least one branch.",
+      "updated": "The products' data has been updated successfully."
+    },
+    "wrongCredentials": "Your entered credentials are incorrect!",
+    "yourFormHasErrors": "Your form has input errors, that need to be fixed.",
+    "unknown_server_error_occured": "An unknown server error has occured. Please retry.",
+    "user": {
+      "created": "The user has been created and is active immediately.",
+      "deleted": "The complete user and its data has been deleted.",
+      "updated": "The users' data has been updated successfully."
+    }
+  },
+  "branch": {
+    "name": "Branch name"
+  },
+  "cancel": "Cancel",
+  "changePasswordOfUser": "Change users' password.",
+  "close": "Close view",
+  "completeWorkday": "Complete workday",
+  "delete": "Delete",
+  "email": "E-mail",
+  "first_name": "First name",
+  "home": "Home",
+  "last_name": "Last name",
+  "logout": "Logout",
+  "modal": {
+    "areYouSureToContinue": "Are you sure to continue?",
+    "deleteEntityCannotRestore": "If you delete this entity, you cannot restore it in the future."
+  },
+  "no": "No",
+  "password": "Password",
+  "password_retype": "Retype password",
+  "piece": "Piece",
+  "pieces": "Pieces",
+  "product": {
+    "create": "Create new product",
+    "edit": "Edit product",
+    "name": "Name",
+    "overview": "Product overview",
+    "price": "Product price",
+    "quantity": "Product inventory"
+  },
+  "save": "Save",
+  "yes": "Yes",
+  "update": "Update",
+  "user": {
+    "create": "Create new user",
+    "edit": "Edit user",
+    "overview": "User overview"
+  },
+  "username": "Username"
+
 }

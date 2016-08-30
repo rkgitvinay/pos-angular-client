@@ -13,14 +13,20 @@ angular.module('iklinikPosApp')
       HttpService.POST(params, '/authenticate').then(function(response) {
         if(response.httpState === 200) {
           setToken(response.data.content);
-          deferred.resolve();
+          $timeout(function() {
+            deferred.resolve();
+          }, 500);
         } else {
           setToken('');
-          deferred.reject();
+          $timeout(function() {
+            deferred.reject();
+          }, 500);
         }
       }, function() {
         setToken('');
-        deferred.reject();
+        $timeout(function() {
+          deferred.reject();
+        }, 500);
       });
 
       return deferred.promise;
@@ -31,13 +37,7 @@ angular.module('iklinikPosApp')
     }
 
     function getToken() {
-      var token = null;
-
-      try {
-        token = JSON.parse($window.localStorage.getItem(LS_TOKEN));
-      } catch(e) {}
-
-      return token;
+      return $window.localStorage.getItem(LS_TOKEN);
     }
 
     return {

@@ -1,0 +1,65 @@
+<form name="form">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 ng-if="!isEdit" ng-bind-html="'product.create' | translate"></h1>
+      <h1 ng-if="isEdit" ng-bind-html="'product.edit' | translate"></h1>
+    </div>
+    <div class="col-md-4 buttons-right">
+      <button class="btn btn-default pull-right" type="button" ng-bind-html="'close' | translate" ui-sref="productOverview()"></button>
+      <button ng-if="!productDeleted && isEdit && !isUpdated" class="btn btn-danger pull-right margin-right20" type="button" ng-click="delete()" ng-bind-html="'delete' | translate"></button>
+      <button ng-if="!productDeleted && !isEdit && !isUpdated" class="btn btn-primary pull-right margin-right20" type="button" ng-click="save(form)" ng-bind-html="'save' | translate"></button>
+      <button ng-if="!productDeleted && isEdit && !isUpdated" class="btn btn-primary pull-right margin-right20" type="button" ng-click="update(form)" ng-bind-html="'update' | translate"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <alerts alerts="alerts"></alerts>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <label for="product_name" ng-bind-html="'product.name' | translate"></label>
+        <input type="text" class="form-control" id="product_name" name="product_name" ng-model="product.name" ng-minlength="5" required>
+        <div class="help-block" ng-messages="form.product_name.$error" ng-show="form.product_name.$touched">
+          <div ng-messages-include="views/messages.html"></div>
+        </div>
+      </div>
+      <hr>
+      <h3>Define attributes</h3>
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-4">
+          <label ng-bind-html="'product.price' | translate"></label>
+        </div>
+        <div class="col-md-3">
+          <label ng-bind-html="'product.quantity' | translate"></label>
+        </div>
+      </div>
+      <div class="row" ng-repeat="b in product.branchesProducts">
+        <div class="col-md-3" style="margin-top: -5px">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="b.isChecked">
+              <span ng-bind-html="b.name"></span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-addon"><span ng-bind-html="b.currency"></span></div>
+            <input type="text" class="form-control input-sm" ng-model="b.product.price" placeholder="12.95" ng-disabled="!b.isChecked">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="input-group">
+            <input type="text" class="form-control input-sm" ng-model="b.product.quantity" placeholder="15" ng-disabled="!b.isChecked">
+            <div class="input-group-addon input-sm"><span ng-bind-html="'pieces' | translate"></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>

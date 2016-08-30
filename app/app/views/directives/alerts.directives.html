@@ -1,0 +1,7 @@
+<div>
+  <div ng-repeat="a in alerts" class="alert alert-{{a.type}}" role="alert">
+    <i ng-if="a.type === 'success'" class="fa fa-check-circle-o"></i>
+    <i ng-if="a.type === 'danger'" class="fa fa-times-circle-o"></i>
+    <span ng-bind-html="a.message"></span>
+  </div>
+</div>

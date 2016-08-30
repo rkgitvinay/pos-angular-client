@@ -3,7 +3,7 @@
  */
 
 angular.module('iklinikPosApp')
-  .service('HttpService', function ($http, ENV, config, $q, $window, $injector) {
+  .service('HttpService', function ($http, ENV, config, $q, $window, $injector, $state) {
 
     var HTTP_TIMEOUT = 10000; // in milliseconds
 
@@ -78,6 +78,7 @@ angular.module('iklinikPosApp')
           deferred.resolve({data: res, httpState: state});
         })
         .error(function (res, state) {
+          checkToken(res);
           deferred.reject({data: [], httpState: state});
         });
 
@@ -87,7 +88,7 @@ angular.module('iklinikPosApp')
     /*
      Handles all POST http service calls.
      */
-    function post(params, service, callback) {
+    function post(params, service) {
       console.log('HTTP POST Call: ' + service + ' Parameter: ' + JSON.stringify(params));
       var deferred = $q.defer();
       checkForToken();
@@ -95,14 +96,63 @@ angular.module('iklinikPosApp')
       $http
         .post(apiEndpoint + service, params, httpConfig)
         .success(function (res, state) {
-          deferred.resolve({data: [], httpState: state});
+          deferred.resolve({data: res, httpState: state});
         })
         .error(function (res, state) {
+          checkToken(res);
           deferred.reject({data: [], httpState: state});
         });
 
       return deferred.promise;
     };
+
+    /*
+     Handles all PUT http service calls.
+     */
+    function put(params, service, callback) {
+      console.log('HTTP PUT Call: ' + service + ' Parameter: ' + JSON.stringify(params));
+      var deferred = $q.defer();
+      checkForToken();
+
+      $http
+        .put(apiEndpoint + service, params, httpConfig)
+        .success(function (res, state) {
+          deferred.resolve({data: res, httpState: state});
+        })
+        .error(function (res, state) {
+          checkToken(res);
+          deferred.reject({data: [], httpState: state});
+        });
+
+      return deferred.promise;
+    };
+
+    /*
+     Handles all PUT http service calls.
+     */
+    function del(params, service, callback) {
+      console.log('HTTP PUT Call: ' + service + ' Parameter: ' + JSON.stringify(params));
+      var deferred = $q.defer();
+      checkForToken();
+
+      $http
+        .delete(apiEndpoint + service, httpConfig)
+        .success(function (res, state) {
+          deferred.resolve({data: res, httpState: state});
+        })
+        .error(function (res, state) {
+          checkToken(res);
+          deferred.reject({data: [], httpState: state});
+        });
+
+      return deferred.promise;
+    };
+
+    function checkToken(res) {
+      //if(res.error === 'token_not_provided') {
+        //$state.go('login');
+      //}
+    }
 
     function connectionTooLow() {
       // connection too low
@@ -114,6 +164,8 @@ angular.module('iklinikPosApp')
     }
 
     return {
+      DELETE: del,
+      PUT: put,
       POST: post,
       GET: get,
       getHttpConfig: getHttpConfig,

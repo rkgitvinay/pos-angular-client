@@ -1,0 +1,11 @@
+table.dataTable thead .sorting:after {
+  margin-right: 10px;
+}
+
+table.dataTable thead .sorting_asc:after {
+  display: none;
+}
+
+table.dataTable thead .sorting_desc:after {
+  display: none;
+}

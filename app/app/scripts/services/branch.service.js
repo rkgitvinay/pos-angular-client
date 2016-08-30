@@ -28,6 +28,10 @@ angular.module('iklinikPosApp')
       return deferred.promise;
     }
 
+    function readSelectedBranch() {
+      return JSON.parse($window.localStorage.getItem(LS_BRANCH));
+    }
+
     function setSelectedBranch(branch) {
       $window.localStorage.setItem(LS_BRANCH, JSON.stringify(branch));
     }
@@ -46,6 +50,7 @@ angular.module('iklinikPosApp')
 
     return {
       get:get,
+      readSelectedBranch: readSelectedBranch,
       getSelectedBranch: getSelectedBranch,
       setSelectedBranch: setSelectedBranch
     }
