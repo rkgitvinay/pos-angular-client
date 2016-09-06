@@ -130,7 +130,7 @@ angular.module('iklinikPosApp')
     /*
      Handles all PUT http service calls.
      */
-    function del(params, service, callback) {
+    function del(params, service) {
       console.log('HTTP PUT Call: ' + service + ' Parameter: ' + JSON.stringify(params));
       var deferred = $q.defer();
       checkForToken();

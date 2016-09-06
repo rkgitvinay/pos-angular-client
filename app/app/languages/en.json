@@ -1,5 +1,19 @@
 {
+  "address": "Address",
   "alerts": {
+    "branch": {
+      "created": "The branch has been created and is active immediately.",
+      "deleted": "The complete branch and its data has been deleted.",
+      "selectBranchForCopy": "Please select a branch data, that can be used for copy.",
+      "updated": "The branches' data has been updated successfully."
+    },
+    "customer": {
+      "addCountry": "Please select the country of residence.",
+      "addCompanyName": "Please add a company name!",
+      "created": "The customer has been created and is active immediately.",
+      "deleted": "The complete customer and its data has been deleted.",
+      "updated": "The customers' data has been updated successfully."
+    },
     "passwordsDoNotMatch": "Your entered passwords do not match.",
     "passwordMinimumLength": "The password must be at least 6 characters long.",
     "product": {
@@ -19,25 +33,44 @@
     }
   },
   "branch": {
-    "name": "Branch name"
+    "copy_data": "Copy branch data like products, product prices and product quantity to new branch.",
+    "create": "Create new branch",
+    "edit": "Edit branch",
+    "name": "Branch name",
+    "overview": "Branch overview",
+    "select_copy_branch": "Branch to copy data from"
   },
   "cancel": "Cancel",
   "changePasswordOfUser": "Change users' password.",
+  "city": "City",
   "close": "Close view",
+  "company_name": "Company name",
   "completeWorkday": "Complete workday",
+  "country": "Country",
+  "currency": "Currency",
+  "customer": {
+    "create": "Create new customer",
+    "overview": "Customer overview",
+    "sex": "Customer sex",
+    "type": "Customer type"
+  },
   "delete": "Delete",
   "email": "E-mail",
+  "extra_name": "Extra name",
   "first_name": "First name",
   "home": "Home",
   "last_name": "Last name",
   "logout": "Logout",
+  "mobile": "Mobile No.",
   "modal": {
     "areYouSureToContinue": "Are you sure to continue?",
     "deleteEntityCannotRestore": "If you delete this entity, you cannot restore it in the future."
   },
+  "name": "Name",
   "no": "No",
   "password": "Password",
   "password_retype": "Retype password",
+  "phone": "Phone",
   "piece": "Piece",
   "pieces": "Pieces",
   "product": {
@@ -49,6 +82,7 @@
     "quantity": "Product inventory"
   },
   "save": "Save",
+  "tax": "Tax",
   "yes": "Yes",
   "update": "Update",
   "user": {
@@ -56,6 +90,6 @@
     "edit": "Edit user",
     "overview": "User overview"
   },
-  "username": "Username"
-
+  "username": "Username",
+  "zip_city": "ZIP / City"
 }

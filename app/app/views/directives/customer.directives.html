@@ -1,0 +1,146 @@
+<form name="form" class="form-horizontal">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 ng-if="!isEdit" ng-bind-html="'product.create' | translate"></h1>
+      <h1 ng-if="isEdit" ng-bind-html="'product.edit' | translate"></h1>
+    </div>
+    <div class="col-md-4 buttons-right">
+      <button ng-if="!isOrder" class="btn btn-default pull-right" type="button" ng-bind-html="'close' | translate" ui-sref="customerOverview()"></button>
+      <button ng-if="!productDeleted && isEdit && !isUpdated && !isOrder" class="btn btn-danger pull-right margin-right20" type="button" ng-click="delete()" ng-bind-html="'delete' | translate"></button>
+      <button ng-if="!productDeleted && !isEdit && !isUpdated" class="btn btn-primary pull-right margin-right20" type="button" ng-click="save(form)" ng-bind-html="'save' | translate"></button>
+      <button ng-if="!productDeleted && isEdit && !isUpdated" class="btn btn-primary pull-right margin-right20" type="button" ng-click="update(form)" ng-bind-html="'update' | translate"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <alerts alerts="alerts"></alerts>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="type" ng-bind-html="'customer.type' | translate"></label>
+        <div class="col-sm-8">
+          <select class="form-control" name="type" id="type" ng-options="t as t for t in types" ng-model="customer.type" required ></select>
+          <div class="help-block" ng-messages="form.type.$error" ng-show="form.type.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="sex" ng-bind-html="'customer.sex' | translate"></label>
+        <div class="col-sm-8">
+          <select class="form-control" name="sex" id="sex" ng-options="s as s for s in sex" ng-model="customer.sex" required ></select>
+          <div class="help-block" ng-messages="form.sex.$error" ng-show="form.sex.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group" ng-if="customer.type === 'company'">
+        <label class="col-sm-4 control-label" for="company_name" ng-bind-html="'company_name' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="company_name" name="company_name" ng-model="customer.company_name">
+          <div class="help-block" ng-messages="form.company_name.$error" ng-show="form.company_name.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="first_name" ng-bind-html="'first_name' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="first_name" name="first_name" ng-model="customer.first_name" ng-minlength="3" required>
+          <div class="help-block" ng-messages="form.first_name.$error" ng-show="form.first_name.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="last_name" ng-bind-html="'last_name' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="last_name" name="last_name" ng-model="customer.last_name" ng-minlength="3" required>
+          <div class="help-block" ng-messages="form.last_name.$error" ng-show="form.last_name.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="address_line_one" ng-bind-html="'address' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="address_line_one" name="address_line_one" ng-model="customer.address_line_one" ng-minlength="3" required>
+          <div class="help-block" ng-messages="form.address_line_one.$error" ng-show="form.address_line_one.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="address_line_two" ng-bind-html="'address' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="address_line_two" name="address_line_two" ng-model="customer.address_line_two" ng-minlength="3">
+          <div class="help-block" ng-messages="form.address_line_two.$error" ng-show="form.address_line_two.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="zip" ng-bind-html="'zip_city' | translate"></label>
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="zip" name="zip" ng-model="customer.zip" ng-minlength="3" required>
+              <div class="help-block" ng-messages="form.zip.$error" ng-show="form.zip.$touched">
+                <div ng-messages-include="views/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="city" name="city" ng-model="customer.city" ng-minlength="3" required>
+              <div class="help-block" ng-messages="form.city.$error" ng-show="form.city.$touched">
+                <div ng-messages-include="views/messages.html"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="country" ng-bind-html="'country' | translate"></label>
+        <div class="col-sm-8">
+          <country-select class="form-control" cs-priorities="CH, DE, GB" ng-model="customer.country" cs-required></country-select>
+          <div class="help-block" ng-messages="form.country.$error" ng-show="form.country.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="mobile" ng-bind-html="'mobile' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="mobile" name="mobile" ng-model="customer.mobile" ng-minlength="3" placeholder="+41763321212" required>
+          <div class="help-block" ng-messages="form.mobile.$error" ng-show="form.mobile.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="phone" ng-bind-html="'phone' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="phone" name="phone" ng-model="customer.phone" placeholder="+41325102232" ng-minlength="3">
+          <div class="help-block" ng-messages="form.phone.$error" ng-show="form.phone.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="email" ng-bind-html="'email' | translate"></label>
+        <div class="col-sm-8">
+          <input type="email" class="form-control" id="email" name="email" ng-model="customer.email">
+          <div class="help-block" ng-messages="form.email.$error" ng-show="form.email.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

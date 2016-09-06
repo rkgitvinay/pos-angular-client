@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-8">
+    <h1 ng-bind-html="'customer.overview' | translate"></h1>
+  </div>
+  <div class="col-md-4 buttons-right">
+    <button class="btn btn-default pull-right" type="button" ng-bind-html="'customer.create' | translate" ui-sref="customerCreate()"></button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <table datatable="" dt-options="table.dtOptions" dt-columns="table.dtColumns" class="row-border hover"></table>
+  </div>
+</div>

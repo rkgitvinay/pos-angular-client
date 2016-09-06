@@ -1,0 +1,138 @@
+<form class="form-horizontal" name="form">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 ng-if="!isEdit" ng-bind-html="'branch.create' | translate"></h1>
+      <h1 ng-if="isEdit" ng-bind-html="'branch.edit' | translate"></h1>
+    </div>
+    <div class="col-md-4 buttons-right">
+      <button class="btn btn-default pull-right" type="button" ng-bind-html="'close' | translate" ui-sref="branchOverview()"></button>
+      <button ng-if="!branchDeleted && isEdit" class="btn btn-danger pull-right margin-right20" type="button" ng-click="delete()" ng-bind-html="'delete' | translate"></button>
+      <button ng-if="!branchDeleted" class="btn btn-primary pull-right margin-right20" type="button" ng-click="save(form)" ng-bind-html="'save' | translate"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <alerts alerts="alerts"></alerts>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="name" ng-bind-html="'name' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="name" name="name" ng-model="branch.name" ng-minlength="5" required>
+          <div class="help-block" ng-messages="form.name.$error" ng-show="form.name.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="extra_name" ng-bind-html="'extra_name' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="extra_name" name="extra_name" ng-model="branch.extra_name">
+          <div class="help-block" ng-messages="form.extra_name.$error" ng-show="form.extra_name.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="address_line_one" ng-bind-html="'address' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="address_line_one" name="address_line_one" ng-model="branch.address_line_one" ng-minlength="5" required>
+          <div class="help-block" ng-messages="form.address_line_one.$error" ng-show="form.address_line_one.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="address_line_two" ng-bind-html="'address' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="address_line_two" name="address_line_two" ng-model="branch.address_line_two">
+          <div class="help-block" ng-messages="form.address_line_two.$error" ng-show="form.address_line_two.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="zip" ng-bind-html="'zip_city' | translate"></label>
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="zip" name="zip" ng-model="branch.zip" ng-minlength="4" required>
+              <div class="help-block" ng-messages="form.zip.$error" ng-show="form.zip.$touched">
+                <div ng-messages-include="views/messages.html"></div>
+              </div>
+            </div>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="city" name="city" ng-model="branch.city" ng-minlength="5" required>
+              <div class="help-block" ng-messages="form.city.$error" ng-show="form.city.$touched">
+                <div ng-messages-include="views/messages.html"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="phone" ng-bind-html="'phone' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="phone" name="phone" ng-model="branch.phone" ng-minlength="5" placeholder="+41 32 510 22 92" required>
+          <div class="help-block" ng-messages="form.phone.$error" ng-show="form.phone.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="email" ng-bind-html="'email' | translate"></label>
+        <div class="col-sm-8">
+          <input type="email" class="form-control" id="email" name="email" ng-model="branch.email" ng-minlength="5" required>
+          <div class="help-block" ng-messages="form.phone.$error" ng-show="form.phone.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="country" ng-bind-html="'country' | translate"></label>
+        <div class="col-sm-8">
+          <country-select class="form-control" cs-priorities="CH, DE, GB" ng-model="branch.country" cs-required></country-select>
+          <div class="help-block" ng-messages="form.country.$error" ng-show="form.country.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="currency" ng-bind-html="'currency' | translate"></label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="currency" name="currency" ng-model="branch.currency" ng-minlength="3" placeholder="CHF" required>
+          <div class="help-block" ng-messages="form.currency.$error" ng-show="form.currency.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label" for="tax" ng-bind-html="'tax' | translate"></label>
+        <div class="col-sm-8">
+          <div class="input-group">
+            <input type="text" class="form-control" id="tax" name="tax" ng-model="branch.tax" ng-minlength="3" placeholder="0.19" required>
+            <span class="input-group-addon" id="basic-addon2">%</span>
+          </div>
+          <div class="help-block" ng-messages="form.tax.$error" ng-show="form.tax.$touched">
+            <div ng-messages-include="views/messages.html"></div>
+          </div>
+        </div>
+        <hr>
+        <br><br>
+        <div ng-if="!isEdit" class="checkbox" style="margin-left: 15px;margin-top: -20px;margin-bottom: 10px;">
+          <label class="col-sm-offset-4 control-label" style="text-align: left">
+            <input type="checkbox" ng-model="branch.copyData">
+            <span ng-bind-html="'branch.copy_data' | translate"></span>
+          </label>
+        </div>
+        <div class="form-group" ng-if="branch.copyData">
+          <label class="col-sm-4 control-label" for="country" ng-bind-html="'branch.select_copy_branch' | translate"></label>
+          <div class="col-sm-8">
+            <select class="form-control" ng-options="b as b.name for b in branches track by b.id" ng-model="branch.selectedCopyDataBranch"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

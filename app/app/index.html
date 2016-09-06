@@ -53,8 +53,8 @@
               <li class="dropdown">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Customers <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="" ng-bind-html="'create' | translate"></a></li>
-                  <li><a href="" ng-bind-html="'overview' | translate"></a></li>
+                  <li><a ui-sref="customerCreate()" ng-bind-html="'create' | translate"></a></li>
+                  <li><a ui-sref="customerOverview()" ng-bind-html="'overview' | translate"></a></li>
                   <li role="separator" class="divider"></li>
                   <li><a href="" ng-bind-html="'partnerOverview' | translate"></a></li>
                   <li role="separator" class="divider"></li>
@@ -197,6 +197,7 @@
     <script src="bower_components/angular-datatables/dist/plugins/select/angular-datatables.select.js"></script>
     <script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
     <script src="bower_components/ngMask/dist/ngMask.js"></script>
+    <script src="bower_components/ng-country-select/dist/ng-country-select.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -209,6 +210,7 @@
     <script src="scripts/controllers/user.js"></script>
     <script src="scripts/controllers/modal.js"></script>
     <script src="scripts/controllers/product.js"></script>
+    <script src="scripts/controllers/branch.js"></script>
         <script src="scripts/services/auth.service.js"></script>
         <script src="scripts/services/http.service.js"></script>
         <script src="scripts/services/user.service.js"></script>
@@ -216,6 +218,9 @@
     <script src="scripts/directives/alerts.service.js"></script>
         <script src="scripts/filters/currency.js"></script>
         <script src="scripts/filters/pieces.js"></script>
+        <script src="scripts/directives/customer.directive.js"></script>
+        <script src="scripts/controllers/customer.js"></script>
+        <script src="scripts/services/customer.service.js"></script>
         <!-- endbuild -->
 </body>
 </html>

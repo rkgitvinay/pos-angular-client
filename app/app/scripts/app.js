@@ -22,7 +22,8 @@ angular
     'angularPromiseButtons',
     'datatables',
     'angularModalService',
-    'ngMask'
+    'ngMask',
+    'countrySelect'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, angularPromiseButtonsProvider) {
     $stateProvider
@@ -74,6 +75,45 @@ angular
         templateUrl: 'views/user/create.html',
         controller: 'UserCtrl'
       })
+
+
+      .state('branchOverview', {
+        url: '/branch-overview',
+        templateUrl: 'views/branch/overview.html',
+        controller: 'BranchCtrl'
+      })
+
+      .state('branchCreate', {
+        url: '/branch-create',
+        templateUrl: 'views/branch/create.html',
+        controller: 'BranchCtrl'
+      })
+
+      .state('branchEdit', {
+        url: '/branch-edit/:id',
+        templateUrl: 'views/branch/create.html',
+        controller: 'BranchCtrl'
+      })
+
+
+      .state('customerOverview', {
+        url: '/customer-overview',
+        templateUrl: 'views/customer/overview.html',
+        controller: 'CustomerCtrl'
+      })
+
+      .state('customerCreate', {
+        url: '/customer-create',
+        templateUrl: 'views/customer/create.html',
+        controller: 'CustomerCtrl'
+      })
+
+      .state('customerEdit', {
+        url: '/customer-edit/:id',
+        templateUrl: 'views/customer/create.html',
+        controller: 'CustomerCtrl'
+      })
+
 
       .state('about', {
         url: '/about',
