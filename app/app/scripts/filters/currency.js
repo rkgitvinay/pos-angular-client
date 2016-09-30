@@ -13,6 +13,6 @@ angular.module('iklinikPosApp')
     return function (input) {
       var result = BranchService.readSelectedBranch();
 
-      return $filter('currency')(input,result.currency+'&nbsp;', 2)
+      return $filter('currency')(input,result.currency+' ', 2)
     };
   });

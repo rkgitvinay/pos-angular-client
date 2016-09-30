@@ -1,0 +1,60 @@
+<div class="modal fade">
+  <div class="modal-dialog big">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="dismissModal(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" ng-bind-html="'modal.selectCustomer' | translate"></h4>
+      </div>
+      <div class="modal-body">
+        <form name="form" class="form-horizontal">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="search.string" ng-change="updateSearch()" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ng-click="updateSearch()">
+                <span ng-show="!search.isLoading">Go</span>
+                <i ng-show="search.isLoading" class="fa fa-spinner fa-spin fa-fw"></i>
+              </button>
+            </span>
+          </div>
+        </form>
+
+        <div ng-show="customer.data.length > 0" class="panel panel-default" style="margin-top:20px;">
+          <div class="panel-heading">
+            {{'modal.search_customer_results' | translate}}
+            <i ng-show="search.isLoading" class="fa fa-spinner fa-spin fa-fw pull-right"></i>
+          </div>
+          <div class="panel-body" style="width:100%">
+            <table class="table-condensed">
+              <tr>
+                <th>{{'first_name' | translate}}</th>
+                <th>{{'last_name' | translate}}</th>
+                <th>{{'street' | translate}}</th>
+                <th>{{'city' | translate}}</th>
+                <th>{{'mobile' | translate}}</th>
+                <th>{{'email' | translate}}</th>
+                <th>{{'customer.select' | translate}}</th>
+              </tr>
+              <tr ng-repeat="c in customer.data">
+                <td>{{c.first_name}}</td>
+                <td>{{c.last_name}}</td>
+                <td>{{c.address_line_one}}</td>
+                <td>{{c.city}}</td>
+                <td>{{c.mobile}}</td>
+                <td>{{c.email}}</td>
+                <td>
+                  <button type="button" ng-click="dismissModal(true)" class="btn btn-sm btn-default" data-dismiss="modal">
+                    <i class="fa fa-level-down" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-click="dismissModal(false)" class="btn btn-default" data-dismiss="modal" ng-bind-html="'cancel' | translate"></button>
+        <button type="button" ng-click="dismissModal(true)" class="btn btn-primary" data-dismiss="modal" ng-bind-html="'ok' | translate"></button>
+      </div>
+    </div>
+  </div>
+</div>

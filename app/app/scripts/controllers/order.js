@@ -10,6 +10,7 @@
 angular.module('iklinikPosApp')
   .controller('OrderCtrl', function ($scope, ProductGroups) {
     $scope.products = {selection: [], selected: []};
+    $scope.customer = {selected: {}};
 
     ProductGroups.get().then(function(result) {
       $scope.productGroups = result;

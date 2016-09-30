@@ -53,7 +53,8 @@
     "create": "Create new customer",
     "overview": "Customer overview",
     "sex": "Customer sex",
-    "type": "Customer type"
+    "type": "Customer type",
+    "select": "Select customer"
   },
   "dashboard": {
     "create_order": "Create new order",
@@ -75,6 +76,17 @@
   },
   "name": "Name",
   "no": "No",
+  "order": {
+    "create": "Create new order",
+    "product_name": "Product name",
+    "product_price": "Product price",
+    "product_quantity": "Product quantity",
+    "product_total": "Product total",
+    "select_products": "Select products",
+    "selected_products": "Selected products",
+    "start_over": "Start over",
+    "total": "Total"
+  },
   "ok": "Ok",
   "overview": "Overview",
   "password": "Password",
@@ -92,6 +104,7 @@
   },
   "product_groups": "Product groups",
   "save": "Save",
+  "street": "Street",
   "tax": "Tax",
   "yes": "Yes",
   "update": "Update",

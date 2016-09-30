@@ -9,9 +9,33 @@
 <hr>
 <div class="row">
   <div class="col-md-8">
-    <map-tiles product-groups="productGroups" products="products"></map-tiles>
-    <hr>
-    <product-list products="products"></product-list>
+    <div class="panel panel-default">
+      <div class="panel-heading">{{'order.select_products' | translate}}</div>
+      <div class="panel-body">
+        <map-tiles product-groups="productGroups" products="products"></map-tiles>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">{{'order.selected_products' | translate}}</div>
+      <div class="panel-body">
+        <product-list products="products"></product-list>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">{{'order.select_customer' | translate}}</div>
+      <div class="panel-body">
+        <select-customer customer="customer"></select-customer>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">{{'order.select_payment' | translate}}</div>
+      <div class="panel-body">
+
+      </div>
+    </div>
   </div>
 </div>
 

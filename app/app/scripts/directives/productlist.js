@@ -61,8 +61,20 @@ angular.module('iklinikPosApp')
       return listProducts;
     }
 
-    function calculateProduct(id, type, listProducts) {
+    function calculateTotalPrice(productsList) {
+      var total = 0;
+      for(var i in productsList) {
+        total += parseInt(productsList[i].price) * parseInt(productsList[i].quantity);
+      }
+      return total;
+    }
 
+    function calculateTotalAmount(productsList) {
+      var total = 0;
+      for(var i in productsList) {
+        total += parseInt(productsList[i].quantity);
+      }
+      return total;
     }
 
     return {
@@ -93,9 +105,15 @@ angular.module('iklinikPosApp')
 
         scope.$watch('products', function(value) {
           scope.products = value;
+
           if(scope.products.selected.product_name !== undefined) {
             scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
           }
+        }, true);
+
+        scope.$watch('productList', function(value) {
+          scope.totalPrice = calculateTotalPrice(scope.productList.selected);
+          scope.totalAmount = calculateTotalAmount(scope.productList.selected);
         }, true);
       }
     };
