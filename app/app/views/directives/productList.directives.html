@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>{{'order.product_name' | translate}}</th>
+        <th>{{'order.product_price' | translate}}</th>
+        <th>{{'order.product_quantity' | translate}}</th>
+        <th>{{'order.product_total' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="p in productList.selected">
+          <td>{{p.name}}</td>
+          <td>{{p.price}}</td>
+          <td>
+            {{p.quantity}}
+            <i class="fa fa-plus-circle" aria-hidden="true" ng-click="increment(p)"></i>
+            <i class="fa fa-minus-circle" aria-hidden="true" ng-click="decrement(p)"></i>
+          </td>
+          <td>{{p.price | multiplication:p.quantity}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

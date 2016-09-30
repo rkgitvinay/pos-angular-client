@@ -46,6 +46,7 @@
   "close": "Close view",
   "company_name": "Company name",
   "completeWorkday": "Complete workday",
+  "create": "Create",
   "country": "Country",
   "currency": "Currency",
   "customer": {
@@ -53,6 +54,10 @@
     "overview": "Customer overview",
     "sex": "Customer sex",
     "type": "Customer type"
+  },
+  "dashboard": {
+    "create_order": "Create new order",
+    "overview": "Dashboard overview"
   },
   "delete": "Delete",
   "email": "E-mail",
@@ -64,10 +69,14 @@
   "mobile": "Mobile No.",
   "modal": {
     "areYouSureToContinue": "Are you sure to continue?",
-    "deleteEntityCannotRestore": "If you delete this entity, you cannot restore it in the future."
+    "deleteEntityCannotRestore": "If you delete this entity, you cannot restore it in the future.",
+    "pleaseSelectTheRelevantProduct": "Please select the relavant product of the selection below:",
+    "selectProduct": "Select product"
   },
   "name": "Name",
   "no": "No",
+  "ok": "Ok",
+  "overview": "Overview",
   "password": "Password",
   "password_retype": "Retype password",
   "phone": "Phone",
@@ -81,6 +90,7 @@
     "price": "Product price",
     "quantity": "Product inventory"
   },
+  "product_groups": "Product groups",
   "save": "Save",
   "tax": "Tax",
   "yes": "Yes",

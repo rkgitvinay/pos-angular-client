@@ -58,6 +58,7 @@ angular
       })
 
 
+
       .state('userOverview', {
         url: '/user-overview',
         templateUrl: 'views/user/overview.html',
@@ -112,6 +113,12 @@ angular
         url: '/customer-edit/:id',
         templateUrl: 'views/customer/create.html',
         controller: 'CustomerCtrl'
+      })
+
+      .state('orderCreate', {
+        url: '/order-create',
+        templateUrl: 'views/order/create.html',
+        controller: 'OrderCtrl'
       })
 
 

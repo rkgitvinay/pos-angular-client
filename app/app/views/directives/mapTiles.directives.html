@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <a href="" ng-click="goOutMatrix(null)">{{'overview' | translate}}</a>
+    <span ng-repeat="l in matrixHistory">
+      <span>&nbsp;>&nbsp;</span>
+      <span ng-if="$last">{{l.name}}</span>
+      <a ng-if="!$last" href="" ng-click="goOutMatrix(l)">{{l.name}}</a>
+    </span>
+    <hr>
+    <div class="map-tiles-wrapper">
+      <div ng-repeat="nOL in getNumber(numberOfLines) track by $index" class="row" style="padding-right: 0px; padding-left: 0px;">
+        <div ng-repeat="nEpL in getNumber(numberOfElementsPerLine) track by $index" class="col-md-{{columnLength}}" style="padding-right: 0px; padding-left: 0px;">
+          <div class="map-tiles-box" ng-click="goIntoMatrix($parent.$index, $index)" ng-show="productMatrix[$parent.$index][$index] !== undefined">
+            <img src="{{productMatrix[$parent.$index][$index].image_url}}" class="map-tiles-size">
+            <br>
+            <h5>{{productMatrix[$parent.$index][$index].name}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

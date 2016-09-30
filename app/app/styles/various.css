@@ -1,3 +1,23 @@
 .buttons-right {
   margin-top: 20px;
 }
+
+.map-tiles-box {
+  text-align: center;
+  border-bottom: 1px solid lightgray;
+  margin: 5px;
+  padding: 5px;
+}
+
+.map-tiles-size {
+  height: 120px !important;
+}
+
+.map-tiles-wrapper {
+  margin-left:15px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 300px;
+}
+
+

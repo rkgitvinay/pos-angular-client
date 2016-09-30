@@ -7,6 +7,17 @@ angular.module('iklinikPosApp')
 
     var LS_BRANCH = 'selected_branch';
 
+    function getBranchNow() {
+      var localStorage = $window.localStorage.getItem(LS_BRANCH);
+      var selectedBranch = null;
+
+      try {
+        selectedBranch = JSON.parse(localStorage);
+      } catch(e) {}
+
+      return selectedBranch;
+    }
+
     function getSelectedBranch() {
       var deferred = $q.defer();
 
@@ -52,6 +63,7 @@ angular.module('iklinikPosApp')
       get:get,
       readSelectedBranch: readSelectedBranch,
       getSelectedBranch: getSelectedBranch,
-      setSelectedBranch: setSelectedBranch
+      setSelectedBranch: setSelectedBranch,
+      getBranchNow: getBranchNow
     }
   });
