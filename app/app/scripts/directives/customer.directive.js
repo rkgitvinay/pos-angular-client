@@ -45,7 +45,7 @@ angular.module('iklinikPosApp')
         customerDeleted: '=',
         save: '@',
         isEdit: '=',
-        isOrder: '='
+        order: '='
       },
       link: function postLink(scope, element, attrs) {
         scope.alerts = [];
@@ -59,13 +59,21 @@ angular.module('iklinikPosApp')
           if(val[0]) {
             if(scope.isEdit) {
               HttpService.PUT(scope.customer, '/customer').then(function(response) {
-                scope.alerts.push({type: 'success', message: $filter('translate')('alerts.' + response.data.label)});
+                if(scope.order.isOrder) {
+                  scope.order.selectCustomerInModal(scope.customer);
+                } else {
+                  scope.alerts.push({type: 'success', message: $filter('translate')('alerts.' + response.data.label)});
+                }
               }, function() {
                 scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.unknown_server_error_occured')});
               });
             } else {
               HttpService.POST(scope.customer, '/customer').then(function(response) {
-                scope.alerts.push({type: 'success', message: $filter('translate')('alerts.' + response.data.label)});
+                if(scope.order.isOrder) {
+                  scope.order.selectCustomerInModal(scope.customer);
+                } else {
+                  scope.alerts.push({type: 'success', message: $filter('translate')('alerts.' + response.data.label)});
+                }
               }, function() {
                 scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.unknown_server_error_occured')});
               });
@@ -94,16 +102,27 @@ angular.module('iklinikPosApp')
         };
 
         scope.$watch('$stateParams.id', function() {
-          if(parseInt($stateParams.id) > 0) {
-            HttpService.GET('/customer/' + $stateParams.id).then(function(response) {
-              scope.customer = response.data.content;
+          if(!scope.order.isOrder) {
+            if(parseInt($stateParams.id) > 0) {
+              HttpService.GET('/customer/' + $stateParams.id).then(function(response) {
+                scope.customer = response.data.content;
 
-              scope.isEdit = true;
-              scope.customerDeleted = false;
-            });
+                scope.isEdit = true;
+                scope.customerDeleted = false;
+              });
+            } else {
+              scope.customer = {};
+              scope.isEdit = false;
+            }
           } else {
-            scope.customer = {};
-            scope.isEdit = false;
+            if(scope.customer.id !== undefined && scope.customer.id !== null) {
+              HttpService.GET('/customer/' + scope.customer.id).then(function(response) {
+                scope.customer = response.data.content;
+
+                scope.isEdit = true;
+                scope.customerDeleted = false;
+              });
+            }
           }
         });
       }

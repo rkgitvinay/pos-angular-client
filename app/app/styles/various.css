@@ -24,6 +24,12 @@
   text-align: right;
 }
 
+.error-message-input {
+  font-size: 8px;
+  color: red;
+  margin-bottom: -15px;
+}
+
 @media (min-width: 1200px) {
   .container {
     width: 1170px;

@@ -7,7 +7,7 @@
  * # selectCustomer
  */
 angular.module('iklinikPosApp')
-  .directive('selectCustomer', function (ModalService, HttpService, $q) {
+  .directive('selectCustomer', function (ModalService, HttpService, $q, $timeout) {
 
     function search(searchString) {
       var defer = $q.defer();
@@ -29,6 +29,8 @@ angular.module('iklinikPosApp')
         scope.search = {string:'', isLoading: false};
         scope.customer = {data: [], selected: {}};
 
+        scope.customer.selected = {"id":3,"type":"private","sex":"male","first_name":"Hanspeter22","last_name":"Trösch","company_name":"","address_line_one":"Bahnhofstrasse 45","address_line_two":"","zip":"8001","city":"Zürich","country":"CH","phone":"","mobile":"+41763321459","email":"mail@xorox.io","created_at":"2016-10-10 07:03:35","updated_at":"2016-10-10 08:44:18"};
+
         scope.searchCustomer = function() {
           ModalService.showModal({
             templateUrl: "views/modal/searchForCustomer.html",
@@ -36,11 +38,10 @@ angular.module('iklinikPosApp')
             scope: scope
           }).then(function(modal) {
             scope.modal = modal;
-
             modal.element.modal();
             modal.close.then(function(result) {
-              if(result) {
-                scope.products.selected = scope.data.modalProductSelected;
+              if(result.success) {
+                scope.customer.selected = result.customer;
                 loadMatrix(scope.productGroups);
               }
             });
@@ -61,8 +62,79 @@ angular.module('iklinikPosApp')
             }
           }
         };
+
+        scope.createCustomer = function() {
+          ModalService.showModal({
+            templateUrl: "views/modal/createCustomer.html",
+            controller: "CreateCustomerModalCtrl",
+            scope: scope
+          }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+              $timeout(function() {
+                angular.element(document.getElementsByClassName('modal-backdrop')).css('display','none');
+              },1100);
+              if(result.success) {
+                scope.customer.selected = result.customer;
+              }
+            });
+          });
+        };
+
+        scope.editCustomer = function() {
+          ModalService.showModal({
+            templateUrl: "views/modal/editCustomer.html",
+            controller: "EditCustomerModalCtrl",
+            scope: scope
+          }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function(result) {
+              $timeout(function() {
+                angular.element(document.getElementsByClassName('modal-backdrop')).css('display','none');
+              },1100);
+              if(result.success) {
+                scope.customer.selected = result.customer;
+              }
+            });
+          });
+        }
       }
     };
   })
-  .controller('SearchForCustomerModalCtrl',function($scope) {
+
+  .controller('SearchForCustomerModalCtrl',function($scope, close) {
+    $scope.selectCustomerInModal = function(customer) {
+      close({success: true, customer: customer}, 200); // close, but give 200ms for bootstrap to animate
+    };
+
+    $scope.dismissModal = function(result) {
+      close({success: false, customer: null}, 200); // close, but give 200ms for bootstrap to animate
+    };
+  })
+
+  .controller('CreateCustomerModalCtrl',function($scope, close) {
+    $scope.order = {
+      isOrder: true,
+      selectCustomerInModal: function(customer) {
+        close({success: true, customer: $scope.customer}, 200); // close, but give 200ms for bootstrap to animate
+      }
+    };
+
+    $scope.dismissModal = function(result) {
+      close({success: false, customer: $scope.customer}, 200); // close, but give 200ms for bootstrap to animate
+    };
+  })
+
+  .controller('EditCustomerModalCtrl',function($scope, close) {
+    $scope.customer = $scope.customer.selected;
+    $scope.order = {
+      isOrder: true,
+      selectCustomerInModal: function(customer) {
+        close({success: true, customer: $scope.customer}, 200); // close, but give 200ms for bootstrap to animate
+      }
+    };
+
+    $scope.dismissModal = function(result) {
+      close({success: false, customer: $scope.customer}, 200); // close, but give 200ms for bootstrap to animate
+    };
   });

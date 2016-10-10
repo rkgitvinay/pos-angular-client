@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" ng-click="dismissModal(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" ng-bind-html="'modal.selectCustomer' | translate"></h4>
+        <h4 class="modal-title" ng-bind-html="'customer.searchForCustomer' | translate"></h4>
       </div>
       <div class="modal-body">
         <form name="form" class="form-horizontal">
@@ -42,7 +42,7 @@
                 <td>{{c.mobile}}</td>
                 <td>{{c.email}}</td>
                 <td>
-                  <button type="button" ng-click="dismissModal(true)" class="btn btn-sm btn-default" data-dismiss="modal">
+                  <button type="button" ng-click="selectCustomerInModal(c)" class="btn btn-sm btn-default" data-dismiss="modal">
                     <i class="fa fa-level-down" aria-hidden="true"></i>
                   </button>
                 </td>

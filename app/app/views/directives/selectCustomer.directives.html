@@ -1,6 +1,45 @@
 <div>
-  <button type="button" ng-click="searchCustomer()" class="btn btn-default">
+  <div ng-if="customer.selected.id !== undefined" class="row">
+    <div class="col-md-6">
+      <p>
+        <span ng-bind-html="customer.selected.first_name"></span>
+        <span ng-bind-html="customer.selected.last_name"></span>
+        <br>
+        <span ng-bind-html="customer.selected.address_line_one"></span>
+        <span ng-if="customer.selected.address_line_two !== '' && customer.selected.address_line_two !== undefined" ng-bind-html="customer.selected.address_line_two"></span>
+        <br>
+        <span ng-bind-html="customer.selected.zip"></span>
+        <span ng-bind-html="customer.selected.city"></span>
+      </p>
+    </div>
+    <div class="col-md-6">
+      <p>
+        <span ng-if="customer.selected.phone !== '' && customer.selected.phone !== undefined" ng-bind-html="customer.selected.phone"></span>
+        <br ng-if="customer.selected.phone !== '' && customer.selected.phone !== undefined">
+        <span ng-if="customer.selected.mobile !== '' && customer.selected.mobile !== undefined" ng-bind-html="customer.selected.mobile"></span>
+        <br>
+        <span ng-bind-html="customer.selected.email"></span>
+      </p>
+    </div>
+  </div>
+
+  <button ng-if="customer.selected.id === undefined" type="button" ng-click="createCustomer()" class="btn btn-default">
+    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    <span ng-bind-html="'customer.createCustomer' | translate"></span>
+  </button>
+
+  <button ng-if="customer.selected.id === undefined" type="button" ng-click="searchCustomer()" class="btn btn-default">
     <i class="fa fa-search" aria-hidden="true"></i>
-    <span ng-bind-html="'order.search_customer' | translate"></span>
+    <span ng-bind-html="'customer.searchForCustomer' | translate"></span>
+  </button>
+
+  <button ng-if="customer.selected.id !== undefined" type="button" ng-click="editCustomer()" class="btn btn-default">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+    <span ng-bind-html="'customer.editCustomer' | translate"></span>
+  </button>
+
+  <button ng-if="customer.selected.id !== undefined" type="button" ng-click="customer.selected = {}" class="btn btn-default">
+    <i class="fa fa-minus-circle" aria-hidden="true"></i>
+    <span ng-bind-html="'customer.removeCustomer' | translate"></span>
   </button>
 </div>
