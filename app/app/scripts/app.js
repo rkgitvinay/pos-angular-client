@@ -23,7 +23,8 @@ angular
     'datatables',
     'angularModalService',
     'ngMask',
-    'countrySelect'
+    'countrySelect',
+    'frapontillo.bootstrap-switch'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, angularPromiseButtonsProvider) {
     $stateProvider
@@ -116,7 +117,7 @@ angular
       })
 
       .state('orderCreate', {
-        url: '/order-create',
+        url: '/order-create/:order_id',
         templateUrl: 'views/order/create.html',
         controller: 'OrderCtrl'
       })

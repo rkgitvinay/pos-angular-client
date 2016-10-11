@@ -27,9 +27,8 @@ angular.module('iklinikPosApp')
       link: function postLink(scope, element, attrs) {
         scope.table = {};
         scope.search = {string:'', isLoading: false};
-        scope.customer = {data: [], selected: {}};
 
-        scope.customer.selected = {"id":3,"type":"private","sex":"male","first_name":"Hanspeter22","last_name":"Trösch","company_name":"","address_line_one":"Bahnhofstrasse 45","address_line_two":"","zip":"8001","city":"Zürich","country":"CH","phone":"","mobile":"+41763321459","email":"mail@xorox.io","created_at":"2016-10-10 07:03:35","updated_at":"2016-10-10 08:44:18"};
+        //scope.customer.selected = {"id":3,"type":"private","sex":"male","first_name":"Hanspeter22","last_name":"Trösch","company_name":"","address_line_one":"Bahnhofstrasse 45","address_line_two":"","zip":"8001","city":"Zürich","country":"CH","phone":"","mobile":"+41763321459","email":"mail@xorox.io","created_at":"2016-10-10 07:03:35","updated_at":"2016-10-10 08:44:18"};
 
         scope.searchCustomer = function() {
           ModalService.showModal({
@@ -42,7 +41,6 @@ angular.module('iklinikPosApp')
             modal.close.then(function(result) {
               if(result.success) {
                 scope.customer.selected = result.customer;
-                loadMatrix(scope.productGroups);
               }
             });
           });
@@ -91,7 +89,7 @@ angular.module('iklinikPosApp')
             modal.close.then(function(result) {
               $timeout(function() {
                 angular.element(document.getElementsByClassName('modal-backdrop')).css('display','none');
-              },1100);
+              },700);
               if(result.success) {
                 scope.customer.selected = result.customer;
               }

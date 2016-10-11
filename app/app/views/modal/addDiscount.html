@@ -1,0 +1,52 @@
+<div class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="dismissModal(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" ng-bind-html="'order.addDiscount' | translate"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <alerts alerts="alerts"></alerts>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label ng-bind-html="'order.discountType' | translate"></label><br>
+              <input
+                bs-switch
+                ng-model="discount.discountTypeIsPercent"
+                switch-on-text="percent"
+                switch-off-text="absolute"
+                switch-size="mini"
+                type="checkbox">
+            </div>
+            <div class="form-group">
+              <label ng-bind-html="'order.discountAmount' | translate"></label>
+              <div class="input-group">
+                <div ng-if="!discount.discountTypeIsPercent" class="input-group-addon">{{'' | getCurrency}}</div>
+                <input type="text" class="form-control" ng-model="discount.value">
+                <div ng-if="discount.discountTypeIsPercent" class="input-group-addon">%</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" style="margin-top:62px;">
+              <label for="sel1" ng-bind-html="'order.partnerDiscount' | translate"></label>
+              <select class="form-control input-sm" id="sel1"
+                      ng-options="items.name for items in partnerDiscounts | orderBy:'name'"
+                      ng-model="selectedPartnerDiscount"
+                      ng-change="updateDiscount()"></select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-click="dismissModal(false)" class="btn btn-default" data-dismiss="modal" ng-bind-html="'cancel' | translate"></button>
+        <button type="button" ng-click="selectDiscountInModal()" class="btn btn-primary" ng-bind-html="'ok' | translate"></button>
+      </div>
+    </div>
+  </div>
+</div>

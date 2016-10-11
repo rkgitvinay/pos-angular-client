@@ -20,11 +20,62 @@
           </td>
           <td class="text-right">{{(p.price | multiplication:p.quantity) | countryCurrency}}</td>
         </tr>
-      <tr>
-        <td colspan="2">{{'order.total' | translate}}</td>
-        <td>{{totalAmount}}</td>
-        <td class="text-right">{{totalPrice | countryCurrency}}</td>
-      </tr>
+        <tr>
+          <td colspan="2">{{'order.total' | translate}}</td>
+          <td>{{totalAmount}}</td>
+          <td class="text-right">{{total.beforeDiscount | countryCurrency}}</td>
+        </tr>
+        <tr ng-if="products.discount.value !== undefined">
+          <td colspan="2">
+            <button class="btn btn-default pull-left btn-xs" type="button" ng-click="addDiscount()">
+              %
+              <span ng-bind-html="'order.editDiscount' | translate"></span>
+            </button>
+          </td>
+          <td ng-if="products.discount.discountTypeIsPercent" class="text-right">
+            <span ng-bind-html="products.discount.value"></span>
+            <span>%</span>
+          </td>
+          <td ng-if="!products.discount.discountTypeIsPercent"></td>
+          <td class="text-right">
+            <span>-</span>
+            <span ng-bind-html="discountValue | countryCurrency"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>{{'order.totalGross' | translate}}</td>
+          <td colspan="2"></td>
+          <td class="text-right">{{total.gross | countryCurrency}}</td>
+        </tr>
+        <tr ng-if="total.taxIncluded === 1">
+          <td>
+            <span ng-bind-html="'order.taxIncluded' | translate"></span>
+            <span ng-bind-html="(total.taxAmount * 100)"></span>%
+          </td>
+          <td colspan="2"></td>
+          <td class="text-right">{{total.tax | countryCurrency}}</td>
+        </tr>
+        <tr ng-if="total.taxIncluded !== 1">
+          <td>
+            <span ng-bind-html="'order.taxExcluded' | translate"></span>
+            <span ng-bind-html="(total.taxAmount * 100)"></span>%
+          </td>
+          <td colspan="2"></td>
+          <td class="text-right">{{total.tax | countryCurrency}}</td>
+        </tr>
+        <tr>
+          <td>{{'order.totalNett' | translate}}</td>
+          <td colspan="2"></td>
+          <td class="text-right">{{total.nett | countryCurrency}}</td>
+        </tr>
+        <tr>
+          <td ng-if="products.discount.value === undefined" colspan="4">
+            <button class="btn btn-default pull-right btn-xs" type="button" ng-click="addDiscount()">
+              %
+              <span ng-bind-html="'order.addDiscount' | translate"></span>
+            </button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

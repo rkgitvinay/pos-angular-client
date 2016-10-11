@@ -1,0 +1,10 @@
+<div>
+  <div class="form-group">
+    <label for="sel1" ng-bind-html="'order.selectSmartphone' | translate"></label>
+    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selection | orderBy:'value'" ng-model="selectedSmartphone.device"></select>
+  </div>
+  <div ng-if="imeiSelection" class="form-group">
+    <label for="sel2" ng-bind-html="'order.selectImei' | translate"></label>
+    <input class="form-control input-sm" type="text" ng-model="selectedSmartphone.imei">
+  </div>
+</div>

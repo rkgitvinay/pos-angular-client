@@ -1,0 +1,14 @@
+<div>
+  <ul class="nav nav-tabs">
+    <li ng-if="tabs[0].isActive" role="presentation" class="active"><a ng-click="toggle()">{{tabs[0].name}}</a></li>
+    <li ng-if="!tabs[0].isActive" role="presentation"><a ng-click="toggle()">{{tabs[0].name}}</a></li>
+    <li ng-if="tabs[1].isActive" role="presentation" class="active"><a ng-click="toggle()">{{tabs[1].name}}</a></li>
+    <li ng-if="!tabs[1].isActive" role="presentation"><a ng-click="toggle()">{{tabs[1].name}}</a></li>
+  </ul>
+  <div ng-if="tabs[0].isActive" class="form-group" style="margin-top:5px">
+    <textarea class="form-control" rows="5" id="comment" ng-model="notes.internal"></textarea>
+  </div>
+  <div ng-if="tabs[1].isActive" class="form-group" style="margin-top:5px">
+    <textarea class="form-control" rows="5" id="comment" ng-model="notes.external"></textarea>
+  </div>
+</div>

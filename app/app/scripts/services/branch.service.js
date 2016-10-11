@@ -44,7 +44,20 @@ angular.module('iklinikPosApp')
     }
 
     function setSelectedBranch(branch) {
-      $window.localStorage.setItem(LS_BRANCH, JSON.stringify(branch));
+      get().then(function(branches) {
+        var breakWorked = false;
+        for(var i=0;i<branches.length;i++) {
+          if(parseInt(branches[i].id) === parseInt(branch.id)) {
+            $window.localStorage.setItem(LS_BRANCH, JSON.stringify(branches[i]));
+            breakWorked = true;
+            break;
+          }
+        }
+
+        if(!breakWorked) {
+          $window.localStorage.setItem(LS_BRANCH, JSON.stringify(branch));
+        }
+      });
     }
 
     function get() {

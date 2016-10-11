@@ -15,4 +15,12 @@ angular.module('iklinikPosApp')
 
       return $filter('currency')(input,result.currency+' ', 2)
     };
+  })
+
+  .filter('getCurrency', function (BranchService, $filter) {
+    return function (input) {
+      var result = BranchService.readSelectedBranch();
+
+      return result.currency;
+    };
   });
