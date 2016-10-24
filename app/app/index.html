@@ -11,6 +11,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -146,7 +147,7 @@
     </div>
 
     <div class="container" role="main" style="margin-top:50px">
-      <div ui-view autoscroll="true"></div>
+      <div ui-view autoscroll="true" style="margin-top:20px"></div>
     </div>
 
     <div class="footer">
@@ -201,6 +202,7 @@
     <script src="bower_components/ng-country-select/dist/ng-country-select.js"></script>
     <script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
     <script src="bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -236,6 +238,11 @@
         <script src="scripts/directives/notes.js"></script>
         <script src="scripts/services/order.service.js"></script>
         <script src="scripts/filters/order.js"></script>
+        <script src="scripts/services/storageservice.js"></script>
+        <script src="scripts/controllers/repair.js"></script>
+        <script src="scripts/services/repairservice.js"></script>
+        <script src="scripts/directives/devicehealth.js"></script>
+        <script src="scripts/filters/customernotificationselection.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -9,6 +9,7 @@
  */
 angular.module('iklinikPosApp')
   .controller('OrderCtrl', function ($scope, ProductGroups, $filter, $window, BranchService, OrderService, $stateParams, HttpService, AuthService) {
+    $scope.options = {isRepair: false};
     $scope.alerts = [];
     $scope.isOrderSettled = false;
 

@@ -1,0 +1,14 @@
+<div>
+  <div class="form-group">
+    <label for="sel1" ng-bind-html="'deviceHealth.waterImpact' | translate"></label>
+    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionWaterImapct | orderBy:'value'" ng-model="deviceHealth.waterImpact"></select>
+  </div>
+  <div class="form-group">
+    <label for="sel2" ng-bind-html="'deviceHealth.impact' | translate"></label>
+    <select class="form-control input-sm" id="sel2" ng-options="items.value for items in selectionImpact | orderBy:'value'" ng-model="deviceHealth.impact"></select>
+  </div>
+  <div class="form-group">
+    <label for="sel3" ng-bind-html="'deviceHealth.externalImpact' | translate"></label>
+    <select class="form-control input-sm" id="sel3" ng-options="items.value for items in selectionExternalImpact | orderBy:'value'" ng-model="deviceHealth.externalImpact"></select>
+  </div>
+</div>

@@ -75,7 +75,13 @@
   },
   "dashboard": {
     "create_order": "Create new order",
+    "create_repair": "Create repair",
     "overview": "Dashboard overview"
+  },
+  "deviceHealth": {
+    "externalImpact": "External impact",
+    "impact": "Impact",
+    "waterImpact": "Water impact"
   },
   "delete": "Delete",
   "email": "E-mail",
@@ -101,6 +107,7 @@
     "addNotes": "Add notes",
     "complete": "Complete order",
     "create": "Create new order",
+    "deviceHealth": "Device health",
     "discount": "Discount",
     "discountAmount": "Amount of discount",
     "discountType": "Type of discount",
@@ -113,6 +120,7 @@
     "product_price": "Product price",
     "product_quantity": "Product quantity",
     "product_total": "Product total",
+    "searchProducts": "Search products",
     "selectCustomer": "Select customer",
     "selectDevice": "Select device",
     "selectDeliveryMethod": "Select delivery method",
@@ -133,6 +141,7 @@
   },
   "ok": "Ok",
   "overview": "Overview",
+  "partial": "Partial",
   "password": "Password",
   "password_retype": "Retype password",
   "phone": "Phone",
@@ -147,6 +156,10 @@
     "quantity": "Product inventory"
   },
   "product_groups": "Product groups",
+  "repair": {
+    "create": "Create repair",
+    "note": "Repair description"
+  },
   "save": "Save",
   "saveAndApply": "Save & apply",
   "street": "Street",

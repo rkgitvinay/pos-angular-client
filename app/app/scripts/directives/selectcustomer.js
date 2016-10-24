@@ -17,12 +17,72 @@ angular.module('iklinikPosApp')
       return defer.promise;
     }
 
+    function notificationMethod(email, mobile) {
+      if(email.toString().length === 0 && email.toString().length !== 0) {
+        return [
+          {
+            id: 1,
+            isActive: true,
+            name: 'via mobile',
+            value: mobile
+          },
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback'
+          }
+        ]
+      } else if(email.toString().length !== 0 && email.toString().length === 0) {
+        return [
+          {
+            id: 2,
+            isActive: true,
+            name: 'via email',
+            value: email
+          },
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback'
+          }
+        ]
+      } else if(email.toString().length !== 0 && email.toString().length !== 0) {
+        return [
+          {
+            id: 1,
+            isActive: true,
+            name: 'via mobile',
+            value: mobile
+          },
+          {
+            id: 2,
+            isActive: false,
+            name: 'via email',
+            value: email
+          },
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback'
+          }
+        ]
+      } else {
+        return [,
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback'
+          }];
+      }
+    }
+
     return {
       templateUrl: 'views/directives/selectCustomer.directives.html',
       replace: true,
       restrict: 'E',
       scope: {
-        customer: '='
+        customer: '=',
+        options: '='
       },
       link: function postLink(scope, element, attrs) {
         scope.table = {};
@@ -41,6 +101,7 @@ angular.module('iklinikPosApp')
             modal.close.then(function(result) {
               if(result.success) {
                 scope.customer.selected = result.customer;
+                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
               }
             });
           });
@@ -74,6 +135,7 @@ angular.module('iklinikPosApp')
               },1100);
               if(result.success) {
                 scope.customer.selected = result.customer;
+                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
               }
             });
           });
@@ -92,6 +154,7 @@ angular.module('iklinikPosApp')
               },700);
               if(result.success) {
                 scope.customer.selected = result.customer;
+                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
               }
             });
           });

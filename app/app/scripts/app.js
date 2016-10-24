@@ -24,7 +24,8 @@ angular
     'angularModalService',
     'ngMask',
     'countrySelect',
-    'frapontillo.bootstrap-switch'
+    'frapontillo.bootstrap-switch',
+    'ui.select'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, angularPromiseButtonsProvider) {
     $stateProvider
@@ -120,6 +121,12 @@ angular
         url: '/order-create/:order_id',
         templateUrl: 'views/order/create.html',
         controller: 'OrderCtrl'
+      })
+
+      .state('repairCreate', {
+        url: '/repair-create/:repair_id',
+        templateUrl: 'views/repair/create.html',
+        controller: 'RepairCtrl'
       })
 
 

@@ -1,22 +1,41 @@
-<div class="row">
-  <div class="col-md-12">
-
-    <a href="" ng-click="goOutMatrix(null)">{{'overview' | translate}}</a>
-    <span ng-repeat="l in matrixHistory">
-      <span>&nbsp;>&nbsp;</span>
-      <span ng-if="$last">{{l.name}}</span>
-      <a ng-if="!$last" href="" ng-click="goOutMatrix(l)">{{l.name}}</a>
-    </span>
-    <hr>
-    <div class="map-tiles-wrapper">
-      <div ng-repeat="nOL in getNumber(numberOfLines) track by $index" class="row" style="padding-right: 0px; padding-left: 0px;">
-        <div ng-repeat="nEpL in getNumber(numberOfElementsPerLine) track by $index" class="col-md-{{columnLength}}" style="padding-right: 0px; padding-left: 0px;">
-          <div class="map-tiles-box" ng-click="goIntoMatrix($parent.$index, $index)" ng-show="productMatrix[$parent.$index][$index] !== undefined">
-            <img src="{{productMatrix[$parent.$index][$index].image_url}}" class="map-tiles-size">
-            <br>
-            <h5>{{productMatrix[$parent.$index][$index].name}}</h5>
+<div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li role="presentation" ng-class="{'active': tabs[0].isActive}"><a ng-click="toggleTab()" ng-bind-html="'order.select_products' | translate"></a></li>
+        <li role="presentation" ng-class="{'active': tabs[1].isActive}"><a ng-click="toggleTab()" ng-bind-html="'order.searchProducts' | translate"></a></li>
+      </ul>
+      <br>
+      <div ng-if="tabs[0].isActive">
+        <a href="" ng-click="goOutMatrix(null)">{{'overview' | translate}}</a>
+        <span ng-repeat="l in matrixHistory">
+          <span>&nbsp;>&nbsp;</span>
+          <span ng-if="$last">{{l.name}}</span>
+          <a ng-if="!$last" href="" ng-click="goOutMatrix(l)">{{l.name}}</a>
+        </span>
+        <hr>
+        <div class="map-tiles-wrapper">
+          <div ng-repeat="nOL in getNumber(numberOfLines) track by $index" class="row" style="padding-right: 0px; padding-left: 0px;">
+            <div ng-repeat="nEpL in getNumber(numberOfElementsPerLine) track by $index" class="col-md-{{columnLength}}" style="padding-right: 0px; padding-left: 0px;">
+              <div class="map-tiles-box" ng-click="goIntoMatrix($parent.$index, $index)" ng-show="productMatrix[$parent.$index][$index] !== undefined">
+                <img src="{{productMatrix[$parent.$index][$index].image_url}}" class="map-tiles-size">
+                <br>
+                <h5>{{productMatrix[$parent.$index][$index].name}}</h5>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      <div ng-if="tabs[1].isActive">
+        <ui-select ng-model="products.selected" theme="bootstrap" style="min-width: 300px;">
+          <ui-select-match placeholder="Search for a product in the list">{{products.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="product in selectedProducts.select | propsFilter: $select.search">
+            <div ng-bind-html="product.name"></div>
+            <small>
+              {{product | getBranchPrice}} | {{product | getBranchQuantity}} {{'available' | translate}}
+            </small>
+          </ui-select-choices>
+        </ui-select>
       </div>
     </div>
   </div>

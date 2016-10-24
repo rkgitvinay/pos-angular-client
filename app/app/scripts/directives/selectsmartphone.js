@@ -21,7 +21,7 @@ angular.module('iklinikPosApp')
           scope.imeiSelection = false;
         }
 
-        scope.selection = [
+        scope.selectionSmartphone = [
           {
             id: 0,
             value: "iPad"
@@ -141,6 +141,80 @@ angular.module('iklinikPosApp')
           {
             id: 280,
             value: "iPad mini 3"
+          }
+        ];
+
+        scope.selectionCapacity = [
+          {
+            id: 1,
+            value: "8 GB"
+          },
+          {
+            id: 2,
+            value: "16 GB"
+          },
+          {
+            id: 3,
+            value: "32 GB"
+          },
+          {
+            id: 4,
+            value: "64 GB"
+          },
+          {
+            id: 5,
+            value: "128 GB"
+          },
+          {
+            id: 6,
+            value: "256 GB"
+          }
+        ];
+
+        scope.selectionColor = [
+          {
+            id: 1,
+            value: 'Schwarz'
+          },
+          {
+            id: 2,
+            value: 'Weiss'
+          },
+          {
+            id: 3,
+            value: 'Silber'
+          },
+          {
+            id: 4,
+            value: 'Space grau'
+          },
+          {
+            id: 5,
+            value: 'Rose gold'
+          },
+          {
+            id: 6,
+            value: 'Schwarz'
+          },
+          {
+            id: 7,
+            value: 'Pink'
+          },
+          {
+            id: 8,
+            value: 'Gelb'
+          },
+          {
+            id: 9,
+            value: 'Blau'
+          },
+          {
+            id: 10,
+            value: 'Rot'
+          },
+          {
+            id: 10,
+            value: 'Gold'
           }
         ]
       }
