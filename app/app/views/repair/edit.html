@@ -1,0 +1,63 @@
+<div ng-controller="RepairCtrl" >
+  <md-content class="" flex="100" layout="row" layout-wrap>
+    <div flex="50">
+      <md-list flex>
+         <md-subheader class="md-no-sticky">Repair Details</md-subheader>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Repair Id : {{Repair.RecItem.repair.id}}</h4>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Branch Name : {{Repair.RecItem.order.branch.name}}</h4>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Customer Name : {{Repair.RecItem.order.customer.first_name}} {{Repair.RecItem.order.customer.last_name}}</h4>
+           </div>
+         </md-list-item>
+        <md-subheader class="md-no-sticky">Product Details</md-subheader>
+        <md-list-item class="md-2-line" ng-repeat="product in Repair.RecItem.order.products" ng-click="null">
+          <div class="md-list-item-text" >
+            <h4> {{ product.name }} </h4>
+            <p> {{ product.quantity }} </p>
+          </div>
+          <span>${{product.price}}</soan>
+        </md-list-item>
+       </md-list>
+    </div>
+    <div flex="50">
+      <md-list flex>
+         <md-subheader class="md-no-sticky">Phone Details</md-subheader>
+         <md-list-item class="md-2-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Model: {{Repair.RecItem.order.selection_params.device.value}}</h4>
+             <p>IMIE: {{Repair.RecItem.order.selection_params.imie}}, Color: {{Repair.RecItem.order.selection_params.color.value}}, Capacity: {{Repair.RecItem.order.selection_params.capacity.value}}</p>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-2-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Repair Description </h4>
+             <p>{{Repair.RecItem.repair.repair_description}}</p>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Pickup Time: {{Repair.RecItem.repair.pickup_time}}</h4>
+           </div>
+         </md-list-item>
+        <md-subheader class="md-no-sticky">Enter Repair Update</md-subheader>
+         <md-list-item >
+           <md-input-container flex="100">
+             <label>Repair Update</label>
+             <input required name="clientName" ng-model="Repair.RecItem.repair.user_description">
+           </md-input-container>
+         </md-list-item>
+    </div>
+    <div flex="100" layout="row" layout-align="center center">
+      <md-button class="md-raised md-warn" ng-click="updateRepairDet()">Update</md-nutton>
+    </div>
+  </md-content>
+</div>

@@ -25,7 +25,9 @@ angular
     'ngMask',
     'countrySelect',
     'frapontillo.bootstrap-switch',
-    'ui.select'
+    'ui.select',
+    'ngMaterial',
+    'ngMaterialDatePicker'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, angularPromiseButtonsProvider) {
     $stateProvider
@@ -124,8 +126,21 @@ angular
       })
 
       .state('repairCreate', {
-        url: '/repair-create/:repair_id',
+        url: '/repair-create',
+        cache: false,
         templateUrl: 'views/repair/create.html',
+        controller: 'RepairCtrl'
+      })
+
+      .state('repairList', {
+        url: '/repair-list',
+        templateUrl: 'views/repair/list.html',
+        controller: 'RepairCtrl'
+      })
+
+      .state('repairEdit', {
+        url: '/repair-list/{repair_id}',
+        templateUrl: 'views/repair/edit.html',
         controller: 'RepairCtrl'
       })
 

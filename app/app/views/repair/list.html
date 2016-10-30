@@ -1,0 +1,84 @@
+
+<div ng-controller="RepairCtrl as rpCtrl" >
+  <div class="row">
+    <div class="col-md-8">
+      <h1 ng-bind-html="'Repair List' | translate"></h1>
+    </div>
+    <div class="col-md-4 buttons-right">
+      <button class="btn btn-default pull-right" type="button" ng-bind-html="'repair.create' | translate" ui-sref="repairCreate()"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <table datatable="" dt-options="table.dtOptions" dt-columns="table.dtColumns" class="row-border hover"></table>
+    </div>
+  </div>
+  <md-content ng-if="notshowingnow" class="md-padding">
+    <md-grid-list  md-cols-xs="22" md-cols-sm="22" md-cols-md="22" md-cols-gt-md="22" md-row-height="70px"  md-gutter-xs="5px"  md-gutter-gt-sm="8px" md-gutter="12px">
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead" > Number </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Branch </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Customer </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Employee </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Creation Date </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Delivery Date </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan="4" >
+          <div class="md-grid-text listHead"> Model </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Price </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Status </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text listHead"> Process </div>
+      </md-grid-tile>
+    </md-grid-list>
+    <md-divider ></md-divider>
+    <md-grid-list class="eachorderlist"  md-cols-xs="22" md-cols-sm="22" md-cols-md="22" md-cols-gt-md="22" md-row-height="70px"  md-gutter-xs="5px"  md-gutter-gt-sm="8px" md-gutter="12px"   ng-repeat="item in Repair.List track by item.repair.id" >
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > {{item.repair.id}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > {{item.order.branch.name}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > {{item.order.customer.first_name}} {{item.order.customer.last_name}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > {{item.order.user.first_name}} {{item.order.user.last_name}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > {{item.repair.created_at}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > {{item.repair.pickup_time}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="4" md-colspan-sm="4" md-colspan="4" >
+          <div class="md-grid-text" ><span  ng-repeat="product in item.order.products"><span ng-if="$index>0">,</span>{{product.name}}</span> </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" >$ {{item.order.price_net}} </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" ><span ng-if="item.repair.state==0">Repair Open</span><span ng-if="item.repair.state==1">Repair Done</span> </div>
+      </md-grid-tile>
+      <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
+          <div class="md-grid-text" > <a ui-sref="repairEdit({'repair_id':item.repair.id})" class="md-button md-raised" ng-bind-html="'edit' | translate">Edit Repair</a> </div>
+      </md-grid-tile>
+    </md-grid-list>
+  </md-content>
+</div>

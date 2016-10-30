@@ -31,7 +31,7 @@ angular.module('iklinikPosApp')
             isActive: false,
             name: 'via callback'
           }
-        ]
+        ];
       } else if(email.toString().length !== 0 && email.toString().length === 0) {
         return [
           {
@@ -45,7 +45,7 @@ angular.module('iklinikPosApp')
             isActive: false,
             name: 'via callback'
           }
-        ]
+        ];
       } else if(email.toString().length !== 0 && email.toString().length !== 0) {
         return [
           {
@@ -65,9 +65,9 @@ angular.module('iklinikPosApp')
             isActive: false,
             name: 'via callback'
           }
-        ]
+        ];
       } else {
-        return [,
+        return [
           {
             id: 3,
             isActive: false,
@@ -102,6 +102,7 @@ angular.module('iklinikPosApp')
               if(result.success) {
                 scope.customer.selected = result.customer;
                 scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
+                scope.customer.selected.notificationIndx = scope.customer.selected.notification[0];
               }
             });
           });
@@ -136,9 +137,14 @@ angular.module('iklinikPosApp')
               if(result.success) {
                 scope.customer.selected = result.customer;
                 scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
+                scope.customer.selected.notificationIndx = scope.customer.selected.notification[0];
               }
             });
           });
+        };
+
+        scope.setNotificationForm = function(n){
+          scope.customer.selected.notificationIndx = n;
         };
 
         scope.editCustomer = function() {
@@ -155,6 +161,7 @@ angular.module('iklinikPosApp')
               if(result.success) {
                 scope.customer.selected = result.customer;
                 scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
+                scope.customer.selected.notificationIndx = scope.customer.selected.notification[0];
               }
             });
           });
