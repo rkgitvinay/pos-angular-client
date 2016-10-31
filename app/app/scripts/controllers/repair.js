@@ -240,9 +240,38 @@ angular.module('iklinikPosApp')
       }
 
       console.log($scope.selectedPayment);
-
-      if($scope.selectedPayment.method.id === undefined) {
+      if($scope.selectedPayment === undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.selectPaymentMethod')});
+        return false;
+      }else{
+        if($scope.selectedPayment.method.id === undefined) {
+          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.selectPaymentMethod')});
+          return false;
+        }
+      }
+
+      if($scope.deviceHealth.waterImpact === undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
+        return false;
+      }
+
+      if($scope.deviceHealth.impact === undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
+        return false;
+      }
+
+      if($scope.deviceHealth.externalImpact === undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
+        return false;
+      }
+
+      if($scope.repairNote=== undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
+        return false;
+      }
+
+      if($scope.pickupTime=== undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.pickupTime')});
         return false;
       }
 

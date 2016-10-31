@@ -34,12 +34,12 @@
          <md-list-item class="md-2-line">
            <div class="md-list-item-text" layout="column">
              <h4>Model: {{Repair.RecItem.order.selection_params.device.value}}</h4>
-             <p>IMIE: {{Repair.RecItem.order.selection_params.imie}}, Color: {{Repair.RecItem.order.selection_params.color.value}}, Capacity: {{Repair.RecItem.order.selection_params.capacity.value}}</p>
+             <p>IMEi: {{Repair.RecItem.order.selection_params.imei}}, Color: {{Repair.RecItem.order.selection_params.color.value}}, Capacity: {{Repair.RecItem.order.selection_params.capacity.value}}</p>
            </div>
          </md-list-item>
          <md-list-item class="md-2-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Repair Description </h4>
+             <h4>{{'repair.note' | translate}} </h4>
              <p>{{Repair.RecItem.repair.repair_description}}</p>
            </div>
          </md-list-item>
