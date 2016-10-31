@@ -28,7 +28,7 @@
       <div class="btn-group" ng-if="customer.selected.id !== undefined && options.isRepair">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-bell-o" aria-hidden="true"></i>
-          Notification {{customer.selected.notification | customerNotificationSelection}} <span class="caret"></span>
+          Notification {{customer.selected.notificationIndex.name}} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
           <li ng-repeat="n in customer.selected.notification"><a ng-click="setNotificationForm(n)">
