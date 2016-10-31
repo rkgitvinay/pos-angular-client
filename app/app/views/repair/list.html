@@ -50,7 +50,7 @@
     <md-divider ></md-divider>
     <md-grid-list class="eachorderlist"  md-cols-xs="22" md-cols-sm="22" md-cols-md="22" md-cols-gt-md="22" md-row-height="70px"  md-gutter-xs="5px"  md-gutter-gt-sm="8px" md-gutter="12px"   ng-repeat="item in Repair.List track by item.repair.id" >
       <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
-          <div class="md-grid-text" > {{item.repair.id}} </div>
+          <div class="md-grid-text" > {{item.repair.id | repair}} </div>
       </md-grid-tile>
       <md-grid-tile md-colspan-xs="2" md-colspan-sm="2" md-colspan="2" >
           <div class="md-grid-text" > {{item.order.branch.name}} </div>
