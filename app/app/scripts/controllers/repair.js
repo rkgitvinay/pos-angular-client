@@ -19,10 +19,6 @@ angular.module('iklinikPosApp')
     $scope.Repair = {};
     $scope.Repair.List = [];
 
-    ProductGroups.get().then(function(result) {
-      $scope.productGroups = result;
-    });
-
 
     $scope.$on('$stateChangeSuccess', function () {
           // do something
@@ -32,8 +28,62 @@ angular.module('iklinikPosApp')
         //initList();
       }else if ($state.current.name ==='repairEdit') {
         initRepair();
+      }else if ($state.current.name ==='callbackList') {
+        getCallbacks();
+      }
+      else if ($state.current.name ==='callbackUpdate') {
+        updateCallback($stateParams.id);
       }
     });
+
+    function getCallbacks(){
+
+    };
+
+    $scope.Repair.CList = {};
+
+    $scope.Repair.CList.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+      var defer = $q.defer();
+      RepairService.getcallbackList().then(function(result) {
+        defer.resolve(result.data.content);
+      });
+      return defer.promise;
+    }).withPaginationType('full_numbers').withOption('fnRowCallback',
+     function (nRow) {
+        $compile(nRow)($scope);
+     });
+
+
+
+    $scope.Repair.CList.dtColumns = [
+      DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Number')).renderWith(function(data) {
+          return "<span style='padding:0px 10px;' >"+ data.number +"</span>";
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Text')).renderWith(function(data) {
+          return "<span style='padding:0px 10px;' >"+ data.text +"</span>";
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
+         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Done')).renderWith(function(data) {
+          return '<a  ui-sref="callbackUpdate({\'id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
+      })
+    ];
+
+    function updateCallback(id){
+      RepairService.updateCallback({id:id}).then(function(success) {
+        if(success.httpState === 200) {
+          $state.go('callbackList');
+        } else {
+          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
+          console.log(success);
+        }
+      }, function(error) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
+        console.log(error);
+      });
+    }
 
     /*function initList() {
       RepairService.getList().then(function(success) {
@@ -49,6 +99,11 @@ angular.module('iklinikPosApp')
         console.log(error);
       });
     }*/
+
+
+        ProductGroups.get().then(function(result) {
+          $scope.productGroups = result;
+        });
 
     $scope.table = {};
 
