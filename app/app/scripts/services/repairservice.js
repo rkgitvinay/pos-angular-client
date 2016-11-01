@@ -43,9 +43,31 @@ angular.module('iklinikPosApp')
       return defer.promise;
     }
 
+    function updateCallback(data) {
+      var defer = $q.defer();
+      HttpService.PUT(data, '/callbackupdate').then(function(success) {
+        defer.resolve(success);
+      }, function(error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
     function getList() {
       var defer = $q.defer();
       HttpService.GET('/repairlist').then(function(success) {
+        defer.resolve(success);
+      }, function(error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+    function getcallbackList() {
+      var defer = $q.defer();
+      HttpService.GET('/callbacklist').then(function(success) {
         defer.resolve(success);
       }, function(error) {
         defer.reject(error);
@@ -58,6 +80,8 @@ angular.module('iklinikPosApp')
       addRepair: addRepair,
       getRepair: getRepair,
       getList: getList,
-      updateRepair: updateRepair
+      updateRepair: updateRepair,
+      getcallbackList: getcallbackList,
+      updateCallback: updateCallback,
     };
   });

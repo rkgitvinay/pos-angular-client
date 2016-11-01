@@ -144,6 +144,18 @@ angular
         controller: 'RepairCtrl'
       })
 
+      .state('callbackList', {
+        url: '/callback-list',
+        templateUrl: 'views/repair/callback.html',
+        controller: 'RepairCtrl'
+      })
+
+      .state('callbackUpdate', {
+        url: '/callback-update/{id}',
+        templateUrl: 'views/repair/callback.html',
+        controller: 'RepairCtrl'
+      })
+
 
       .state('about', {
         url: '/about',
