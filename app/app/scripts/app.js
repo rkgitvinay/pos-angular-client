@@ -156,6 +156,12 @@ angular
         controller: 'RepairCtrl'
       })
 
+      .state('repairOrder', {
+        url: '/repair-order/{repair_id}',
+        templateUrl: 'views/repair/createorder.html',
+        controller: 'RepairCtrl'
+      })
+
 
       .state('about', {
         url: '/about',

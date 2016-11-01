@@ -21,6 +21,18 @@ angular.module('iklinikPosApp')
       return defer.promise;
     }
 
+    function addRepairOrder(data) {
+      var defer = $q.defer();
+      HttpService.POST(data, '/repairorder').then(function(success) {
+        defer.resolve(success);
+      }, function(error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+
     function getRepair(id) {
       var defer = $q.defer();
       HttpService.GET('/repair/' + id).then(function(success) {
@@ -83,5 +95,6 @@ angular.module('iklinikPosApp')
       updateRepair: updateRepair,
       getcallbackList: getcallbackList,
       updateCallback: updateCallback,
+      addRepairOrder: addRepairOrder
     };
   });
