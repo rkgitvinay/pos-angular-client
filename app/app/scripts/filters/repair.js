@@ -13,16 +13,20 @@ angular.module('iklinikPosApp')
     var numberLength = 8;
 
     return function (input) {
-      var input = input.toString();
-      var length = input.length;
-      var number = input;
+      if(input !== undefined) {
+        input = input.toString();
+        var length = input.length;
+        var number = input;
 
-      var i = numberLength-length;
-      while(i>0) {
-        number = '0' + number;
-        i--;
+        var i = numberLength-length;
+        while(i>0) {
+          number = '0' + number;
+          i--;
+        }
+
+        return 'R' + number;
+      } else {
+        return input;
       }
-
-      return 'R' + number;
     };
   });
