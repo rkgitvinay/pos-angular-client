@@ -265,11 +265,6 @@ angular.module('iklinikPosApp')
         return false;
       }
 
-      if($scope.repairNote=== undefined) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
-        return false;
-      }
-
       if($scope.pickupTime=== undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.pickupTime')});
         return false;
