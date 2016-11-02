@@ -171,6 +171,16 @@ angular.module('iklinikPosApp')
           scope.products.selectedProductList = scope.productList.selected;
         }, true);
 
+        scope.$watch('products.selectedProductList', function(value) {
+          if(scope.products.selected.product_name !== undefined) {
+            scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
+          }
+
+          scope.discountValue = getDiscount(scope.total.beforeDiscount, scope.products.discount);
+          scope.total = calculateTotalPrice(scope.products.selectedProductList, scope.discountValue);
+          scope.productList.selected = scope.products.selectedProductList;
+        }, true);
+
         scope.$watch('products.discount', function(value) {
           scope.discountValue = getDiscount(scope.total.beforeDiscount, scope.products.discount);
           scope.total = calculateTotalPrice(scope.productList.selected, scope.discountValue);

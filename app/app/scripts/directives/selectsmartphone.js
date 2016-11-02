@@ -20,6 +20,14 @@ angular.module('iklinikPosApp')
         } else {
           scope.imeiSelection = false;
         }
+        scope.$watch('selectedSmartphone', function(value) {
+          console.log(scope.selectedSmartphone);
+          if(scope.selectedSmartphone.imei !== undefined && scope.selectedSmartphone.imei !== null) {
+            scope.imeiSelection = true;
+          } else {
+            scope.imeiSelection = false;
+          }
+        }, true);
 
         scope.selectionSmartphone = [
           {

@@ -50,7 +50,8 @@ angular.module('iklinikPosApp')
       $scope.isOrderSettled = false;
       $scope.orderId = 0;
 
-      $scope.products = {selection: [], selected: $scope.order.products, selectedProductList: []};
+      $scope.products.selected = $scope.order.products;
+      $scope.products.selectedProductList =  $scope.order.products;
       $scope.customer = {data: [], selected: $scope.order.customer};
       $scope.selectedSmartphone = $scope.order.selection_params;
 

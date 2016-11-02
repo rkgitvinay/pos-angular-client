@@ -1,13 +1,13 @@
 <div>
   <div class="form-group">
     <label for="sel1" ng-bind-html="'order.selectSmartphone' | translate"></label>
-    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionSmartphone | orderBy:'value'" ng-model="selectedSmartphone.device"></select>
+    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionSmartphone | orderBy:'value' track by items.id" ng-model="selectedSmartphone.device"></select>
   </div>
   <div class="form-group">
-    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionCapacity" ng-model="selectedSmartphone.capacity"></select>
+    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionCapacity track by items.id" ng-model="selectedSmartphone.capacity"></select>
   </div>
   <div class="form-group">
-    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionColor | orderBy:'value'" ng-model="selectedSmartphone.color"></select>
+    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selectionColor | orderBy:'value' track by items.id" ng-model="selectedSmartphone.color"></select>
   </div>
   <div ng-if="imeiSelection" class="form-group">
     <label for="sel2" ng-bind-html="'order.selectImei' | translate"></label>
