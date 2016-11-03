@@ -121,7 +121,8 @@ angular.module('iklinikPosApp')
       restrict: 'E',
       scope: {
         products: '=',
-        total: '='
+        total: '=',
+        isplistset: '='
       },
       link: function postLink(scope, element, attrs) {
         scope.productList = {selected: []};
@@ -162,23 +163,35 @@ angular.module('iklinikPosApp')
         };
 
         scope.$watch('products.selected', function(value) {
-          if(scope.products.selected.product_name !== undefined) {
-            scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
-          }
+          console.log(scope.isplistset);
+          console.log(scope.products.selectedProductList.length);
+          if (!scope.isplistset) {
+            if(scope.products.selected.product_name !== undefined) {
+              scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
+            }
 
-          scope.discountValue = getDiscount(scope.total.beforeDiscount, scope.products.discount);
-          scope.total = calculateTotalPrice(scope.productList.selected, scope.discountValue);
-          scope.products.selectedProductList = scope.productList.selected;
+            scope.discountValue = getDiscount(scope.total.beforeDiscount, scope.products.discount);
+            scope.total = calculateTotalPrice(scope.productList.selected, scope.discountValue);
+            scope.products.selectedProductList = scope.productList.selected;
+          }else {
+            if (scope.products.selectedProductList.length>0) {
+              scope.productList.selected = scope.products.selectedProductList;
+              scope.isplistset = false;
+            }
+          }
         }, true);
 
         scope.$watch('products.selectedProductList', function(value) {
-          if(scope.products.selected.product_name !== undefined) {
-            scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
-          }
+          if (scope.isplistset) {
+            if(scope.products.selected.product_name !== undefined) {
+              scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
+            }
 
-          scope.discountValue = getDiscount(scope.total.beforeDiscount, scope.products.discount);
-          scope.total = calculateTotalPrice(scope.products.selectedProductList, scope.discountValue);
-          scope.productList.selected = scope.products.selectedProductList;
+            scope.discountValue = getDiscount(scope.total.beforeDiscount, scope.products.discount);
+            scope.total = calculateTotalPrice(scope.products.selectedProductList, scope.discountValue);
+            scope.productList.selected = scope.products.selectedProductList;
+            //scope.isplistset=false;
+          }
         }, true);
 
         scope.$watch('products.discount', function(value) {

@@ -21,7 +21,6 @@ angular.module('iklinikPosApp')
           scope.imeiSelection = false;
         }
         scope.$watch('selectedSmartphone', function(value) {
-          console.log(scope.selectedSmartphone);
           if(scope.selectedSmartphone.imei !== undefined && scope.selectedSmartphone.imei !== null) {
             scope.imeiSelection = true;
           } else {
