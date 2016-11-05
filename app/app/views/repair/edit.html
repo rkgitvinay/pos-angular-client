@@ -45,7 +45,7 @@
          </md-list-item>
          <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Pickup Time: {{Repair.RecItem.pickup_time}}</h4>
+             <h4>Pickup Time: {{Repair.RecItem.pickup_time | date: 'dd.MM.yyyy HH:mm'}}</h4>
            </div>
          </md-list-item>
         <md-subheader class="md-no-sticky">Enter Repair Update</md-subheader>

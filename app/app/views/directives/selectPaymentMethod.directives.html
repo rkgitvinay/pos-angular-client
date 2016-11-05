@@ -1,6 +1,6 @@
 <div>
   <div class="form-group">
     <label for="sel1" ng-bind-html="'order.selectPaymentMethod' | translate"></label>
-    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selection | orderBy:'value'" ng-model="selectedPayment"></select>
+    <select class="form-control input-sm" id="sel1" ng-options="items.value for items in selection | orderBy:'value' track by items.id" ng-model="selectedPayment"></select>
   </div>
 </div>

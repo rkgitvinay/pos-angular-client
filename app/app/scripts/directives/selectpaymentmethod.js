@@ -15,6 +15,11 @@ angular.module('iklinikPosApp')
         selectedPayment: '='
       },
       link: function postLink(scope, element, attrs) {
+
+        scope.$watch('selectedPayment', function(value) {
+          scope.selectedPayment = scope.selectedPayment;
+        }, true);
+
         scope.selection = [
           {
             id: 0,

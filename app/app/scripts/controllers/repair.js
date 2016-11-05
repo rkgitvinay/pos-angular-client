@@ -23,6 +23,8 @@ angular.module('iklinikPosApp')
     $scope.selectedSmartphone = {};
     $scope.products = {selection: [], selected: [], selectedProductList: []};
     $scope.params = {total:{}};
+    $scope.selectedPayment={};
+    $scope.showCallbackDet = false;
 
     $scope.order = {};
 
@@ -36,9 +38,12 @@ angular.module('iklinikPosApp')
       }else if ($state.current.name ==='repairEdit') {
         initRepair();
       }else if ($state.current.name ==='callbackList') {
+        $scope.showCallbackDet = false;
         //getCallbacks();
       }else if ($state.current.name ==='callbackUpdate') {
-        updateCallback($stateParams.id);
+        initRepair();
+        $scope.showCallbackDet = true;
+        //updateCallback($stateParams.id);
       }else if ($state.current.name ==='repairOrder') {
         $scope.order = {};
         initRepair($scope.initOrderData);
@@ -56,7 +61,7 @@ angular.module('iklinikPosApp')
       $scope.selectedSmartphone = $scope.order.selection_params;
 
       $scope.selectedImei = $scope.order.selection_params.imei;
-      $scope.selectedPayment = {method: {}};
+      $scope.selectedPayment.method = $scope.order.payment_method;
       $scope.notes = {internal: '', external: ''};
       $scope.params = $scope.order.params;
     };
@@ -153,22 +158,25 @@ angular.module('iklinikPosApp')
          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Done')).renderWith(function(data) {
-          return '<a  ui-sref="callbackUpdate({\'id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
+          return '<a  ui-sref="callbackUpdate({\'id\':'+ data.id +' , \'repair_id\':'+ data.repair_id +'})" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
       })
     ];
 
-    function updateCallback(id){
-      RepairService.updateCallback({id:id}).then(function(success) {
-        if(success.httpState === 200) {
-          $state.go('callbackList');
-        } else {
+    $scope.updateCallback = function(){
+      console.log($stateParams.id);
+      if ($stateParams.id!==undefined) {
+        RepairService.updateCallback({id:$stateParams.id,repair_id:$scope.Repair.RecItem.id,pickuptime:$scope.Repair.RecItem.pickup_time}).then(function(success) {
+          if(success.httpState === 200) {
+            $state.go('callbackList');
+          } else {
+            $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
+            console.log(success);
+          }
+        }, function(error) {
           $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
-          console.log(success);
-        }
-      }, function(error) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
-        console.log(error);
-      });
+          console.log(error);
+        });
+      }
     }
 
     /*function initList() {
@@ -276,7 +284,8 @@ angular.module('iklinikPosApp')
       RepairService.getRepair($stateParams.repair_id).then(function(success) {
         if(success.httpState === 200) {
           $scope.Repair.RecItem = success.data.content;
-          if (clf!=undefined) {
+          $scope.Repair.RecItem.pickup_time = new Date($scope.Repair.RecItem.pickup_time);
+          if (clf!==undefined) {
             clf();
           }
         } else {

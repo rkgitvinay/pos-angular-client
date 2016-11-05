@@ -151,7 +151,7 @@ angular
       })
 
       .state('callbackUpdate', {
-        url: '/callback-update/{id}',
+        url: '/callback-update/:id/:repair_id',
         templateUrl: 'views/repair/callback.html',
         controller: 'RepairCtrl'
       })

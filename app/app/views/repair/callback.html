@@ -1,17 +1,76 @@
 
 <div ng-controller="RepairCtrl as rpCtrl" >
-  <div class="row">
-    <div class="col-md-8">
-      <h1 ng-bind-html="'Repair List' | translate"></h1>
+  <div ng-hide="showCallbackDet">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 ng-bind-html="'Repair List' | translate"></h1>
+      </div>
+      <div class="col-md-4 buttons-right">
+        <button class="btn btn-default pull-right" type="button" ng-bind-html="'repair.create' | translate" ui-sref="repairCreate()"></button>
+      </div>
     </div>
-    <div class="col-md-4 buttons-right">
-      <button class="btn btn-default pull-right" type="button" ng-bind-html="'repair.create' | translate" ui-sref="repairCreate()"></button>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <table datatable="" dt-options="Repair.CList.dtOptions" dt-columns="Repair.CList.dtColumns" class="row-border hover"></table>
+      </div>
     </div>
   </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-12">
-      <table datatable="" dt-options="Repair.CList.dtOptions" dt-columns="Repair.CList.dtColumns" class="row-border hover"></table>
+  <md-content layout="row" layout-wrap ng-show="showCallbackDet">
+    <div flex="50">
+      <md-list flex>
+         <md-subheader class="md-no-sticky">Repair Details</md-subheader>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Repair Id : {{Repair.RecItem.id | repair}}</h4>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Branch Name : {{Repair.RecItem.branch.name}}</h4>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Customer Name : {{Repair.RecItem.customer.first_name}} {{Repair.RecItem.customer.last_name}}</h4>
+           </div>
+         </md-list-item>
+        <md-subheader class="md-no-sticky">Product Details</md-subheader>
+        <md-list-item class="md-2-line" ng-repeat="product in Repair.RecItem.products" ng-click="null">
+          <div class="md-list-item-text" >
+            <h4> {{ product.name }} </h4>
+            <p> {{ product.quantity }} </p>
+          </div>
+          <span>${{product.price}}</soan>
+        </md-list-item>
+       </md-list>
     </div>
-  </div>
+    <div flex="50">
+      <md-list flex>
+         <md-subheader class="md-no-sticky">Phone Details</md-subheader>
+         <md-list-item class="md-2-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Model: {{Repair.RecItem.selection_params.device.value}}</h4>
+             <p>IMEi: {{Repair.RecItem.selection_params.imei}}, Color: {{Repair.RecItem.selection_params.color.value}}, Capacity: {{Repair.RecItem.selection_params.capacity.value}}</p>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-2-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>{{'repair.note' | translate}} </h4>
+             <p>{{Repair.RecItem.repair_description}}</p>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-1-line">
+           <md-input-container class="md-input-has-placeholder">
+             <label>Pickup Date/Time</label>
+             <input mdc-datetime-picker="" format="DD.MM.YYYY HH:mm" date="true" time="true" type="text"
+             placeholder="Date" min-date="nowTime" ng-model="Repair.RecItem.pickup_time" class=" md-input"
+             id="DTinput_0">
+           </md-input-container>
+         </md-list-item>
+    </div>
+    <div flex="100" layout="row" layout-align="center center">
+      <md-button class="md-raised md-warn" ng-click="updateCallback()">Customer Reached</md-nutton>
+    </div>
+  </md-content>
 </div>

@@ -163,8 +163,6 @@ angular.module('iklinikPosApp')
         };
 
         scope.$watch('products.selected', function(value) {
-          console.log(scope.isplistset);
-          console.log(scope.products.selectedProductList.length);
           if (!scope.isplistset) {
             if(scope.products.selected.product_name !== undefined) {
               scope.productList.selected = checkForDuplicates(scope.products.selected, scope.productList.selected);
