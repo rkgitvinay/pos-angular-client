@@ -77,6 +77,17 @@ angular.module('iklinikPosApp')
       return defer.promise;
     }
 
+    function getHList() {
+      var defer = $q.defer();
+      HttpService.GET('/repairhlist').then(function(success) {
+        defer.resolve(success);
+      }, function(error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
     function getcallbackList() {
       var defer = $q.defer();
       HttpService.GET('/callbacklist').then(function(success) {
@@ -92,6 +103,7 @@ angular.module('iklinikPosApp')
       addRepair: addRepair,
       getRepair: getRepair,
       getList: getList,
+      getHList: getHList,
       updateRepair: updateRepair,
       getcallbackList: getcallbackList,
       updateCallback: updateCallback,

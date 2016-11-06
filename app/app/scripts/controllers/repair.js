@@ -270,6 +270,68 @@ angular.module('iklinikPosApp')
       })
     ];
 
+
+    $scope.htable = {};
+
+    $scope.htable.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+      var defer = $q.defer();
+      RepairService.getHList().then(function(result) {
+        defer.resolve(result.data.content);
+      });
+      return defer.promise;
+    }).withPaginationType('full_numbers').withOption('fnRowCallback',
+     function (nRow) {
+        $compile(nRow)($scope);
+     });
+
+    $scope.htable.dtColumns = [
+      DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
+      DTColumnBuilder.newColumn('branch.name').withTitle($filter('translate')('Branch Name')),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Customer')).renderWith(function(data) {
+         return data.customer.first_name + ' ' + data.customer.last_name;
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Employee')).renderWith(function(data) {
+         return data.user.first_name + ' ' + data.user.last_name;
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Model')).renderWith(function(data) {
+          var prds = "<span style='padding:0px 10px;'>";
+          for (var i = 0; i < data.products.length; i++) {
+            if (i>0) {
+              prds+=',';
+            }
+            prds += data.products[i].name;
+          }
+         return prds+'</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Price')).renderWith(function(data) {
+         return $filter('currency')(data.price_net);
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
+         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Pickup Time')).renderWith(function(data) {
+         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), "dd.MM.yyyy HH:mm")  + '</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
+        if (data.state===0) {
+          return '<span class="label label-warning">Repair Open</span>';
+        }else if (data.state===1) {
+          return '<span class="label label-success">Repair Done</span>';
+        }else {
+          return '<span class="label label-danger">Repair Complete</span>';
+        }
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
+        if (data.state===0) {
+            return '<a  ui-sref="repairEdit({\'repair_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
+        }else if (data.state===1) {
+            return '<a  ui-sref="repairOrder({\'repair_id\':'+ data.id +' })" class="md-button " >Create Order</a>';
+        }else{
+            return "Customer Picked up";
+        }
+      })
+    ];
+
     $scope.updateRepairDet = function() {
         var data = {
           repair_id: $scope.Repair.RecItem.id,
@@ -319,6 +381,9 @@ angular.module('iklinikPosApp')
         $scope.selectedImei = '';
         $scope.deviceHealth = {waterImpact: {}, impact: {}, externalImpact: {}};
         $scope.params = {total: {}};
+        var ndt = new Date();
+        var dt = new Date(ndt.getTime() + 1*24*60*60*1000);;
+        $scope.pickupTime = dt.getDate() + '.' + (dt.getMonth() + 1) + '.' + dt.getFullYear() + " " + dt.getHours() + ":"+ dt.getMinutes();
       } else {
 
         //RepairService.getrepair($scope.repairId).then(function(success) {

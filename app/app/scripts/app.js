@@ -138,6 +138,12 @@ angular
         controller: 'RepairCtrl'
       })
 
+      .state('repairHList', {
+        url: '/repair-complete',
+        templateUrl: 'views/repair/hlist.html',
+        controller: 'RepairCtrl'
+      })
+
       .state('repairEdit', {
         url: '/repair-list/{repair_id}',
         templateUrl: 'views/repair/edit.html',
