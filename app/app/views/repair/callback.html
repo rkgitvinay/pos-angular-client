@@ -56,6 +56,12 @@
          </md-list-item>
          <md-list-item class="md-2-line">
            <div class="md-list-item-text" layout="column">
+             <h4>Device Health</h4>
+             <p>External Impact: {{Repair.RecItem.device_health['externalImpact']['value']}}, Impact: {{Repair.RecItem.device_health['impact']['value']}}, Water Impact: {{Repair.RecItem.device_health['waterImpact']['value']}}</p>
+           </div>
+         </md-list-item>
+         <md-list-item class="md-2-line">
+           <div class="md-list-item-text" layout="column">
              <h4>{{'repair.note' | translate}} </h4>
              <p>{{Repair.RecItem.repair_description}}</p>
            </div>

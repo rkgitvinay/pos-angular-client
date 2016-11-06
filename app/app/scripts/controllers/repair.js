@@ -55,6 +55,9 @@ angular.module('iklinikPosApp')
       $scope.isOrderSettled = false;
       $scope.orderId = 0;
 
+      if ($scope.order.params.discount!==undefined) {
+          $scope.products.discount = $scope.order.params.discount;
+      }
       $scope.products.selected = $scope.order.products;
       $scope.products.selectedProductList =  $scope.order.products;
       $scope.customer = {data: [], selected: $scope.order.customer};
@@ -163,8 +166,15 @@ angular.module('iklinikPosApp')
     ];
 
     $scope.updateCallback = function(){
-      console.log($stateParams.id);
       if ($stateParams.id!==undefined) {
+
+        var str1 = $scope.Repair.RecItem.pickup_time;
+        var dt1   = parseInt(str1.substring(0,2));
+        var mon1  = parseInt(str1.substring(3,5));
+        var yr1   = parseInt(str1.substring(6,10));
+        var h1   = parseInt(str1.substring(11,13));
+        var m1   = parseInt(str1.substring(14,16));
+        $scope.Repair.RecItem.pickup_time = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
         RepairService.updateCallback({id:$stateParams.id,repair_id:$scope.Repair.RecItem.id,pickuptime:$scope.Repair.RecItem.pickup_time}).then(function(success) {
           if(success.httpState === 200) {
             $state.go('callbackList');
@@ -323,7 +333,14 @@ angular.module('iklinikPosApp')
     $scope.completeRepair = function() {
       if(validation()) {
         var branch = BranchService.readSelectedBranch();
-
+        console.log($scope.pickupTime);
+        var str1 = JSON.parse(JSON.stringify($scope.pickupTime));
+        var dt1   = parseInt(str1.substring(0,2));
+        var mon1  = parseInt(str1.substring(3,5));
+        var yr1   = parseInt(str1.substring(6,10));
+        var h1   = parseInt(str1.substring(11,13));
+        var m1   = parseInt(str1.substring(14,16));
+        $scope.pickupTime = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
         $scope.params.discount = $scope.products.discount;
         var data = {
           branch: branch,
@@ -334,6 +351,7 @@ angular.module('iklinikPosApp')
           selectedSmartphone: $scope.selectedSmartphone,
           selectedPaymentMethod: $scope.selectedPayment.method,
           params: $scope.params,
+          deviceHealth: $scope.deviceHealth,
           pickuptime: $scope.pickupTime
         };
 
