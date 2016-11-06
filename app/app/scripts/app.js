@@ -27,7 +27,7 @@ angular
     'frapontillo.bootstrap-switch',
     'ui.select',
     'ngMaterial',
-    'ngMaterialDatePicker'
+    'moment-picker'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, angularPromiseButtonsProvider) {
     $stateProvider

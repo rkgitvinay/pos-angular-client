@@ -66,12 +66,18 @@
           <div class="panel panel-default">
             <div class="panel-heading">{{'order.DateTime' | translate}}</div>
             <div class="panel-body">
-              <md-input-container class="md-input-has-placeholder">
+              <div>
                 <label>Pickup Date/Time</label>
-                <input mdc-datetime-picker="" format="DD.MM.YYYY HH:mm" date="true" time="true" type="text"
+                <input class="form-control"
+                   ng-model="pickupTime"
+                   ng-model-options="{ updateOn: 'blur' }"
+                   placeholder="Select pickup time..."
+                   format="DD.MM.YYYY HH:mm"
+                   moment-picker="pickupTime">
+                <!--<input mdc-datetime-picker="" format="DD.MM.YYYY HH:mm" date="true" time="true" type="text"
                 placeholder="Date" min-date="nowTime" ng-model="pickupTime" class=" md-input"
-                id="DTinput_0">
-              </md-input-container>
+                id="DTinput_0">-->
+              </div>
             </div>
           </div>
         </div>

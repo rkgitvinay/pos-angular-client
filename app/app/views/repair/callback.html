@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <md-content layout="row" layout-wrap ng-show="showCallbackDet">
+  <md-content class="showCallbackDet" layout="row" layout-wrap ng-show="showCallbackDet">
     <div flex="50">
       <md-list flex>
          <md-subheader class="md-no-sticky">Repair Details</md-subheader>
@@ -61,12 +61,18 @@
            </div>
          </md-list-item>
          <md-list-item class="md-1-line">
-           <md-input-container class="md-input-has-placeholder">
+           <div>
              <label>Pickup Date/Time</label>
-             <input mdc-datetime-picker="" format="DD.MM.YYYY HH:mm" date="true" time="true" type="text"
+             <!--<input mdc-datetime-picker="" format="DD.MM.YYYY HH:mm" date="true" time="true" type="text"
              placeholder="Date" min-date="nowTime" ng-model="Repair.RecItem.pickup_time" class=" md-input"
-             id="DTinput_0">
-           </md-input-container>
+             id="DTinput_0">-->
+             <input class="form-control"
+                ng-model="Repair.RecItem.pickup_time"
+                ng-model-options="{ updateOn: 'blur' }"
+                placeholder="Select a Pickup Time..."
+                format="DD.MM.YYYY HH:mm"
+                moment-picker="Repair.RecItem.pickup_time">
+           </div>
          </md-list-item>
     </div>
     <div flex="100" layout="row" layout-align="center center">
