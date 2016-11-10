@@ -8,17 +8,17 @@
  * Controller of the iklinikPosApp
  */
 angular.module('iklinikPosApp')
-  .controller('RepairCtrl', function ( $scope, $state, ProductGroups, OrderService, $compile, $filter, $mdDialog, $window, RepairService, $stateParams, BranchService, HttpService, AuthService, DTOptionsBuilder, DTColumnBuilder, $q) {
+  .controller('QuoteCtrl', function ( $scope, $state, ProductGroups, OrderService, $compile, $filter, $mdDialog, $window, QuoteService, $stateParams, BranchService, HttpService, AuthService, DTOptionsBuilder, DTColumnBuilder, $q) {
     $scope.options = {isRepair: true};
-    $scope.repairId=0;
+    $scope.quoteId=0;
 
     $scope.alerts = [];
-    $scope.isRepairSettled = false;
+    $scope.isQuoteSettled = false;
     $scope.isOrderSettled = false;
 
     $scope.nowTime = new Date();
-    $scope.Repair = {};
-    $scope.Repair.List = [];
+    $scope.Quote = {};
+    $scope.Quote.List = [];
 
     $scope.selectedSmartphone = {};
     $scope.products = {selection: [], selected: [], selectedProductList: []};
@@ -31,22 +31,22 @@ angular.module('iklinikPosApp')
 
     $scope.$on('$stateChangeSuccess', function () {
           // do something
-      if ($state.current.name==='repairCreate') {
+      if ($state.current.name==='quoteCreate') {
         initData();
-      }else if ($state.current.name==='repairList') {
+      }else if ($state.current.name==='quoteList') {
         //initList();
-      }else if ($state.current.name ==='repairEdit') {
-        initRepair();
+      }else if ($state.current.name ==='quoteEdit') {
+        initQuote();
       }else if ($state.current.name ==='callbackList') {
         $scope.showCallbackDet = false;
         //getCallbacks();
       }else if ($state.current.name ==='callbackUpdate') {
-        initRepair();
+        initQuote();
         $scope.showCallbackDet = true;
         //updateCallback($stateParams.id);
-      }else if ($state.current.name ==='repairOrder') {
+      }else if ($state.current.name ==='quoteOrder') {
         $scope.order = {};
-        initRepair($scope.initOrderData);
+        initQuote($scope.initOrderData);
       }
     });
 
@@ -116,7 +116,7 @@ angular.module('iklinikPosApp')
           params: $scope.params
         };
 
-        RepairService.addRepairOrder(data).then(function(success) {
+        QuoteService.addQuoteOrder(data).then(function(success) {
           if(success.httpState === 201) {
             $scope.isOrderSettled = true;
             $scope.orderId = success.data.order.id;
@@ -134,11 +134,11 @@ angular.module('iklinikPosApp')
     };
 
 
-    $scope.Repair.CList = {};
+    $scope.Quote.CList = {};
 
-    $scope.Repair.CList.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+    $scope.Quote.CList.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
       var defer = $q.defer();
-      RepairService.getcallbackList().then(function(result) {
+      QuoteService.getcallbackList().then(function(result) {
         defer.resolve(result.data.content);
       });
       return defer.promise;
@@ -149,7 +149,7 @@ angular.module('iklinikPosApp')
 
 
 
-    $scope.Repair.CList.dtColumns = [
+    $scope.Quote.CList.dtColumns = [
       DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Number')).renderWith(function(data) {
           return "<span style='padding:0px 10px;' >"+ data.number +"</span>";
@@ -175,7 +175,7 @@ angular.module('iklinikPosApp')
         var h1   = parseInt(str1.substring(11,13));
         var m1   = parseInt(str1.substring(14,16));
         $scope.Repair.RecItem.pickup_time = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
-        RepairService.updateCallback({id:$stateParams.id,repair_id:$scope.Repair.RecItem.id,pickuptime:$scope.Repair.RecItem.pickup_time}).then(function(success) {
+        QuoteService.updateCallback({id:$stateParams.id,repair_id:$scope.Repair.RecItem.id,pickuptime:$scope.Repair.RecItem.pickup_time}).then(function(success) {
           if(success.httpState === 200) {
             $state.go('callbackList');
           } else {
@@ -213,7 +213,7 @@ angular.module('iklinikPosApp')
 
     $scope.table.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
       var defer = $q.defer();
-      RepairService.getList().then(function(result) {
+      QuoteService.getList().then(function(result) {
         defer.resolve(result.data.content);
       });
       return defer.promise;
@@ -247,16 +247,13 @@ angular.module('iklinikPosApp')
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
       }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Pickup Time')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), "dd.MM.yyyy HH:mm")  + '</span>';
-      }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
-          return '<span class="label label-warning">Repair Open</span>';
+          return '<span class="label label-warning">Quote Open</span>';
         }else if (data.state===1) {
-          return '<span class="label label-success">Repair Done</span>';
+          return '<span class="label label-success">Quote Done</span>';
         }else {
-          return '<span class="label label-danger">Repair Complete</span>';
+          return '<span class="label label-danger">Quote Complete</span>';
         }
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
@@ -275,7 +272,7 @@ angular.module('iklinikPosApp')
 
     $scope.htable.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
       var defer = $q.defer();
-      RepairService.getHList().then(function(result) {
+      QuoteService.getHList().then(function(result) {
         defer.resolve(result.data.content);
       });
       return defer.promise;
@@ -338,7 +335,7 @@ angular.module('iklinikPosApp')
           udesc: $scope.Repair.RecItem.user_description
         };
 
-        RepairService.updateRepair(data).then(function(success) {
+        QuoteService.updateRepair(data).then(function(success) {
           if(success.httpState === 200) {
             $state.go('repairList');
           } else {
@@ -352,26 +349,25 @@ angular.module('iklinikPosApp')
     };
 
 
-    function initRepair(clf) {
-      RepairService.getRepair($stateParams.repair_id).then(function(success) {
+    function initQuote(clf) {
+      QuoteService.getQuote($stateParams.quote_id).then(function(success) {
         if(success.httpState === 200) {
-          $scope.Repair.RecItem = success.data.content;
-          $scope.Repair.RecItem.pickup_time = new Date($scope.Repair.RecItem.pickup_time);
+          $scope.Quote.RecItem = success.data.content;
           if (clf!==undefined) {
             clf();
           }
         } else {
-          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
+          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.quote.listFail')});
           console.log(success);
         }
       }, function(error) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.quote.listFail')});
         console.log(error);
       });
     }
 
     function initData() {
-      if($scope.repairId === 0) {
+      if($scope.quoteId === 0) {
         $scope.isRepairSettled = false;
         $scope.repairId = 0;
 
@@ -381,9 +377,6 @@ angular.module('iklinikPosApp')
         $scope.selectedImei = '';
         $scope.deviceHealth = {waterImpact: {}, impact: {}, externalImpact: {}};
         $scope.params = {total: {}};
-        var ndt = new Date();
-        var dt = new Date(ndt.getTime() + 1*24*60*60*1000);
-        $scope.pickupTime = dt.getDate() + '.' + (dt.getMonth() + 1) + '.' + dt.getFullYear() + " " + dt.getHours() + ":"+ dt.getMinutes();
       } else {
 
         //RepairService.getrepair($scope.repairId).then(function(success) {
@@ -395,43 +388,34 @@ angular.module('iklinikPosApp')
       }
     }
 
-    $scope.completeRepair = function() {
+    $scope.completeQuote = function() {
       if(validation()) {
         var branch = BranchService.readSelectedBranch();
-        console.log($scope.pickupTime);
-        var str1 = JSON.parse(JSON.stringify($scope.pickupTime));
-        var dt1   = parseInt(str1.substring(0,2));
-        var mon1  = parseInt(str1.substring(3,5));
-        var yr1   = parseInt(str1.substring(6,10));
-        var h1   = parseInt(str1.substring(11,13));
-        var m1   = parseInt(str1.substring(14,16));
-        $scope.pickupTime = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
         $scope.params.discount = $scope.products.discount;
         var data = {
           branch: branch,
           products: $scope.products.selectedProductList,
           customer: $scope.customer,
           notes: $scope.notes,
-          repairnote:$scope.repairNote,
+          quotenote:$scope.repairNote,
           selectedSmartphone: $scope.selectedSmartphone,
           selectedPaymentMethod: $scope.selectedPayment.method,
           params: $scope.params,
-          deviceHealth: $scope.deviceHealth,
-          pickuptime: $scope.pickupTime
+          deviceHealth: $scope.deviceHealth
         };
 
-        RepairService.addRepair(data).then(function(success) {
+        QuoteService.addQuote(data).then(function(success) {
           if(success.httpState === 201) {
-            $scope.isRepairSettled = true;
-            $scope.repairId = success.data.repair.id;
-            $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.repair.creationSuccess',{repairId: $filter('repair')($scope.repairId)})});
+            $scope.isQuoteSettled = true;
+              $scope.quoteId = success.data.quote.id;
+            $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.quote.creationSuccess',{quoteId: $filter('quote')($scope.quoteId)})});
 
           } else {
-            $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
+            $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.quote.creationFail')});
             console.log(success);
           }
         }, function(error) {
-          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
+          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.quote.creationFail')});
           console.log(error);
         });
       }
@@ -446,11 +430,11 @@ angular.module('iklinikPosApp')
     };
 
     $scope.printEmployeePDF = function() {
-      $window.open(HttpService.getApiEndpoint() + '/repair-pdf-internal/' + $scope.repairId + '?token=' + AuthService.getToken(), '_blank');
+      $window.open(HttpService.getApiEndpoint() + '/quote-pdf-internal/' + $scope.quoteId + '?token=' + AuthService.getToken(), '_blank');
     };
 
     $scope.printCustomerPDF = function() {
-      $window.open(HttpService.getApiEndpoint() + '/repair-pdf-external/' + $scope.repairId + '?token=' + AuthService.getToken(), '_blank');
+      $window.open(HttpService.getApiEndpoint() + '/quote-pdf-external/' + $scope.quoteId + '?token=' + AuthService.getToken(), '_blank');
     };
 
     function validation() {
@@ -509,11 +493,6 @@ angular.module('iklinikPosApp')
 
       if($scope.deviceHealth.externalImpact === undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
-        return false;
-      }
-
-      if($scope.pickupTime=== undefined) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.pickupTime')});
         return false;
       }
 

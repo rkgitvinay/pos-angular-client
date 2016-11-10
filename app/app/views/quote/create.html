@@ -1,0 +1,140 @@
+<div ng-controller="QuoteCtrl" >
+  <div ng-hide="isQuoteSettled">
+    <form name="form">
+      <div class="row">
+        <div class="col-md-8">
+          <h1 ng-if="!isEdit" ng-bind-html="'quote.create' | translate"></h1>
+          <h1 ng-if="isEdit" ng-bind-html="'quote.edit' | translate"></h1>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <alerts alerts="alerts"></alerts>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.select_products' | translate}}</div>
+            <div class="panel-body">
+              <map-tiles product-groups="productGroups" products="products" options="options"></map-tiles>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.selected_products' | translate}}</div>
+            <div class="panel-body">
+              <product-list products="products" total="params.total"></product-list>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.selectCustomer' | translate}}</div>
+            <div class="panel-body">
+              <select-customer customer="customer" options="options"></select-customer>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.selectDevice' | translate}}</div>
+            <div class="panel-body">
+              <select-smartphone selected-smartphone="selectedSmartphone"></select-smartphone>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.deviceHealth' | translate}}</div>
+            <div class="panel-body">
+              <device-health device-health="deviceHealth"></device-health>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'quote.note' | translate}}</div>
+            <div class="panel-body">
+              <textarea class="form-control input-sm" rows="10" ng-model="repairNote"></textarea>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.selectPayment' | translate}}</div>
+            <div class="panel-body">
+              <select-payment-method selected-payment="selectedPayment.method"></select-payment-method>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <button class="btn btn-primary pull-right" type="button" ng-click="completeQuote()">
+            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+            <span ng-bind-html="'quote.complete' | translate"></span>
+          </button>
+          <button class="btn btn-default pull-right" style="margin-right: 15px;" type="button" ng-click="rewindOrder()">
+            <i class="fa fa-repeat" aria-hidden="true"></i>
+            <span ng-bind-html="'order.start_over' | translate"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div ng-show="isQuoteSettled">
+    <div class="row">
+      <div class="col-md-8">
+        <h1 ng-bind-html="'order.options' | translate"></h1>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-10">
+        <div class="panel panel-default">
+          <div class="panel-heading">{{'order.selectDeliveryMethod' | translate}}</div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="input-group">
+                  <button class="btn btn-success" type="button" ng-click="printEmployeePDF()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    <span ng-bind-html="'order.printEmployeePDF' | translate"></span>
+                  </button>
+                </div>
+                <br>
+                <div class="input-group">
+                  <button class="btn btn-success" type="button" ng-click="printCustomerPDF()">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    <span ng-bind-html="'order.printCustomerPDF' | translate"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="+417..." ng-model="order.customer.mobile">
+                  <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" ng-click="sendSMS()">
+                      <i class="fa fa-mobile" aria-hidden="true"></i>
+                      <span ng-bind-html="'order.sendSMS' | translate"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input type="text" class="form-control" ng-model="order.customer.email">
+                  <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" ng-click="sendEmail()">
+                      <i class="fa fa-envelope" aria-hidden="true"></i>
+                      <span ng-bind-html="'order.sendEmail' | translate"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

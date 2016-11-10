@@ -168,6 +168,48 @@ angular
         controller: 'RepairCtrl'
       })
 
+      .state('quoteCreate', {
+        url: '/quote-create',
+        cache: false,
+        templateUrl: 'views/quote/create.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('quoteList', {
+        url: '/quote-list',
+        templateUrl: 'views/quote/list.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('quoteHList', {
+        url: '/quote-complete',
+        templateUrl: 'views/quote/hlist.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('quoteEdit', {
+        url: '/quote-list/{quote_id}',
+        templateUrl: 'views/quote/edit.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('callbackQList', {
+        url: '/callback-qlist',
+        templateUrl: 'views/quote/callback.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('callbackQUpdate', {
+        url: '/callback-qupdate/:id/:quote_id',
+        templateUrl: 'views/quote/callback.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('quoteOrder', {
+        url: '/quote-order/{quote_id}',
+        templateUrl: 'views/quote/createorder.html',
+        controller: 'QuoteCtrl'
+      })
 
       .state('about', {
         url: '/about',

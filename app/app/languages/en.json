@@ -160,6 +160,12 @@
     "create": "Create repair",
     "note": "Repair description"
   },
+  "quote":{
+    "create": "Create Quote",
+    "complete": "Complete Quote",
+    "edit": "Edit Quote",
+    "note": "Quote description"
+  },
   "save": "Save",
   "saveAndApply": "Save & apply",
   "street": "Street",

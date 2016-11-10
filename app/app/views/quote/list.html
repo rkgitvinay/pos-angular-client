@@ -1,0 +1,17 @@
+
+<div ng-controller="QuoteCtrl as rpCtrl" >
+  <div class="row">
+    <div class="col-md-8">
+      <h1 ng-bind-html="'Quote List' | translate"></h1>
+    </div>
+    <div class="col-md-4 buttons-right">
+      <button class="btn btn-default pull-right" type="button" ng-bind-html="'quote.create' | translate" ui-sref="quoteCreate()"></button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <table datatable="" dt-options="table.dtOptions" dt-columns="table.dtColumns" class="row-border hover"></table>
+    </div>
+  </div>
+</div>
