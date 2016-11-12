@@ -231,19 +231,6 @@ angular.module('iklinikPosApp')
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Employee')).renderWith(function(data) {
          return data.user.first_name + ' ' + data.user.last_name;
       }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Model')).renderWith(function(data) {
-          var prds = "<span style='padding:0px 10px;'>";
-          for (var i = 0; i < data.products.length; i++) {
-            if (i>0) {
-              prds+=',';
-            }
-            prds += data.products[i].name;
-          }
-         return prds+'</span>';
-      }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Price')).renderWith(function(data) {
-         return $filter('currency')(data.price_net);
-      }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
       }),
@@ -369,14 +356,11 @@ angular.module('iklinikPosApp')
     function initData() {
       if($scope.quoteId === 0) {
         $scope.isRepairSettled = false;
-        $scope.repairId = 0;
-
-        $scope.products = {selection: [], selected: [], selectedProductList: [], repairNote: ''};
+        $scope.quoteId = 0;
         $scope.customer = {data: [], selected: {}};
         $scope.selectedSmartphone = {device: {}, imei:''};
         $scope.selectedImei = '';
         $scope.deviceHealth = {waterImpact: {}, impact: {}, externalImpact: {}};
-        $scope.params = {total: {}};
       } else {
 
         //RepairService.getrepair($scope.repairId).then(function(success) {
@@ -391,16 +375,12 @@ angular.module('iklinikPosApp')
     $scope.completeQuote = function() {
       if(validation()) {
         var branch = BranchService.readSelectedBranch();
-        $scope.params.discount = $scope.products.discount;
         var data = {
           branch: branch,
-          products: $scope.products.selectedProductList,
           customer: $scope.customer,
           notes: $scope.notes,
           quotenote:$scope.repairNote,
           selectedSmartphone: $scope.selectedSmartphone,
-          selectedPaymentMethod: $scope.selectedPayment.method,
-          params: $scope.params,
           deviceHealth: $scope.deviceHealth
         };
 
@@ -440,11 +420,6 @@ angular.module('iklinikPosApp')
     function validation() {
       $scope.alerts = [];
 
-      if($scope.products.selected.length < 1) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.addProducts')});
-        return false;
-      }
-
       if($scope.customer.selected.id === undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.addCustomer')});
         return false;
@@ -468,17 +443,6 @@ angular.module('iklinikPosApp')
       if($scope.selectedSmartphone.imei === '') {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.addImei')});
         return false;
-      }
-
-      console.log($scope.selectedPayment);
-      if($scope.selectedPayment === undefined) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.selectPaymentMethod')});
-        return false;
-      }else{
-        if($scope.selectedPayment.method.id === undefined) {
-          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.selectPaymentMethod')});
-          return false;
-        }
       }
 
       if($scope.deviceHealth.waterImpact === undefined) {
