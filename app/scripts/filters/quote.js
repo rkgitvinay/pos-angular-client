@@ -11,6 +11,6 @@
 angular.module('posIklinikClientApp')
   .filter('quote', function () {
     return function (input) {
-      return 'repair filter: ' + input;
+      return 'quote filter: ' + input;
     };
   });

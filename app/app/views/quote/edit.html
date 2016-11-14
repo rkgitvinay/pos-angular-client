@@ -1,69 +1,89 @@
-<div ng-controller="RepairCtrl" >
+<div ng-controller="QuoteCtrl" >
   <md-content class="" flex="100" layout="row" layout-wrap>
     <div flex="50">
-      <md-list flex>
-         <md-subheader class="md-no-sticky">Repair Details</md-subheader>
-         <md-list-item class="md-1-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Repair Id : {{Repair.RecItem.id | repair}}</h4>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-1-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Branch Name : {{Repair.RecItem.branch.name}}</h4>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-1-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Customer Name : {{Repair.RecItem.customer.first_name}} {{Repair.RecItem.customer.last_name}}</h4>
-           </div>
-         </md-list-item>
-        <md-subheader class="md-no-sticky">Product Details</md-subheader>
-        <md-list-item class="md-2-line" ng-repeat="product in Repair.RecItem.products" ng-click="null">
-          <div class="md-list-item-text" >
-            <h4> {{ product.name }} </h4>
-            <p> {{ product.quantity }} </p>
+      <div class="row">
+        <div class="col-md-8">
+          <h1 ng-bind-html="'quote.edit' | translate"></h1>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <alerts alerts="alerts"></alerts>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.select_products' | translate}}</div>
+            <div class="panel-body">
+              <map-tiles product-groups="productGroups" products="products" options="options"></map-tiles>
+            </div>
           </div>
-          <span>${{product.price}}</soan>
-        </md-list-item>
-       </md-list>
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.selected_products' | translate}}</div>
+            <div class="panel-body">
+              <product-list products="products" total="params.total"></product-list>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div flex="50">
       <md-list flex>
-         <md-subheader class="md-no-sticky">Phone Details</md-subheader>
-         <md-list-item class="md-2-line">
+         <md-subheader class="md-no-sticky">Quote Details</md-subheader>
+         <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Model: {{Repair.RecItem.selection_params.device.value}}</h4>
-             <p>IMEi: {{Repair.RecItem.selection_params.imei}}, Color: {{Repair.RecItem.selection_params.color.value}}, Capacity: {{Repair.RecItem.selection_params.capacity.value}}</p>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-2-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Device Health</h4>
-             <p>External Impact: {{Repair.RecItem.device_health['externalImpact']['value']}}, Impact: {{Repair.RecItem.device_health['impact']['value']}}, Water Impact: {{Repair.RecItem.device_health['waterImpact']['value']}}</p>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-2-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>{{'repair.note' | translate}} </h4>
-             <p>{{Repair.RecItem.repair_description}}</p>
+             <h4>Quote Id : {{Quote.RecItem.id | quote}}</h4>
            </div>
          </md-list-item>
          <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Pickup Time: {{Repair.RecItem.pickup_time | date: 'dd.MM.yyyy HH:mm'}}</h4>
+             <h4>Branch Name : {{Quote.RecItem.branch.name}}</h4>
            </div>
          </md-list-item>
-        <md-subheader class="md-no-sticky">Enter Repair Update</md-subheader>
-         <md-list-item >
-           <md-input-container flex="100">
-             <label>Repair Update</label>
-             <input required name="clientName" ng-model="Repair.RecItem.user_description">
-           </md-input-container>
+         <md-list-item class="md-1-line">
+           <div class="md-list-item-text" layout="column">
+             <h4>Customer Name : {{Quote.RecItem.customer.first_name}} {{Quote.RecItem.customer.last_name}}</h4>
+           </div>
          </md-list-item>
+       </md-list>
+       <md-list flex>
+          <md-subheader class="md-no-sticky">Phone Details</md-subheader>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text" layout="column">
+              <h4>Model: {{Quote.RecItem.selection_params.device.value}}</h4>
+              <p>IMEi: {{Quote.RecItem.selection_params.imei}}, Color: {{Quote.RecItem.selection_params.color.value}}, Capacity: {{Quote.RecItem.selection_params.capacity.value}}</p>
+            </div>
+          </md-list-item>
+          <md-list-item class="md-2-line">
+            <div class="md-list-item-text" layout="column">
+              <h4>Device Health</h4>
+              <p>External Impact: {{Quote.RecItem.device_health['externalImpact']['value']}}, Impact: {{Quote.RecItem.device_health['impact']['value']}}, Water Impact: {{Quote.RecItem.device_health['waterImpact']['value']}}</p>
+            </div>
+          </md-list-item>
+         <md-subheader class="md-no-sticky">Enter Quote Update</md-subheader>
+          <md-list-item >
+            <md-input-container flex="100">
+              <label>Quote Update</label>
+              <input required name="clientName" ng-model="Quote.RecItem.user_description">
+            </md-input-container>
+          </md-list-item>
+        </md-list>
     </div>
     <div flex="100" layout="row" layout-align="center center">
-      <md-button class="md-raised md-warn" ng-click="updateRepairDet()">Update</md-nutton>
+      <div class="">
+        <div class="">
+          <button class="btn btn-primary pull-right" type="button" ng-click="updateQuoteDet()">
+            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+            <span ng-bind-html="'quote.complete' | translate"></span>
+          </button>
+          <button class="btn btn-default pull-right" style="margin-right: 15px;" type="button" ng-click="rewindOrder()">
+            <i class="fa fa-repeat" aria-hidden="true"></i>
+            <span ng-bind-html="'order.start_over' | translate"></span>
+          </button>
+        </div>
+      </div>
     </div>
   </md-content>
 </div>

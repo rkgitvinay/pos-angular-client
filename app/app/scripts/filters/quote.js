@@ -24,7 +24,7 @@ angular.module('iklinikPosApp')
           i--;
         }
 
-        return 'R' + number;
+        return 'Q' + number;
       } else {
         return input;
       }

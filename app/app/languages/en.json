@@ -163,6 +163,8 @@
   "quote":{
     "create": "Create Quote",
     "complete": "Complete Quote",
+    "completed": "Completed Quote",
+    "confirm": "Confirm Quote",
     "edit": "Edit Quote",
     "note": "Quote description"
   },

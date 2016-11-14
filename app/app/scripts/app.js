@@ -181,6 +181,18 @@ angular
         controller: 'QuoteCtrl'
       })
 
+      .state('quoteConfirm', {
+        url: '/quote-confirm',
+        templateUrl: 'views/quote/clist.html',
+        controller: 'QuoteCtrl'
+      })
+
+      .state('quoteConfirmEdit', {
+        url: '/quote-confirm/{quote_id}',
+        templateUrl: 'views/quote/cedit.html',
+        controller: 'QuoteCtrl'
+      })
+
       .state('quoteHList', {
         url: '/quote-complete',
         templateUrl: 'views/quote/hlist.html',

@@ -21,8 +21,8 @@ angular.module('iklinikPosApp')
     $scope.Quote.List = [];
 
     $scope.selectedSmartphone = {};
-    $scope.products = {selection: [], selected: [], selectedProductList: []};
-    $scope.params = {total:{}};
+    $scope.products = {selection: [], selected: [], selectedProductList: [], quoteNote: ''};
+    $scope.params = {total: {}, nett: 0};
     $scope.selectedPayment={};
     $scope.showCallbackDet = false;
 
@@ -36,13 +36,12 @@ angular.module('iklinikPosApp')
       }else if ($state.current.name==='quoteList') {
         //initList();
       }else if ($state.current.name ==='quoteEdit') {
-        initQuote();
+        initQuote(initData());
       }else if ($state.current.name ==='callbackList') {
         $scope.showCallbackDet = false;
         //getCallbacks();
-      }else if ($state.current.name ==='callbackUpdate') {
+      }else if ($state.current.name ==='quoteConfirmEdit') {
         initQuote();
-        $scope.showCallbackDet = true;
         //updateCallback($stateParams.id);
       }else if ($state.current.name ==='quoteOrder') {
         $scope.order = {};
@@ -244,13 +243,7 @@ angular.module('iklinikPosApp')
         }
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
-        if (data.state===0) {
-            return '<a  ui-sref="repairEdit({\'repair_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
-        }else if (data.state===1) {
-            return '<a  ui-sref="repairOrder({\'repair_id\':'+ data.id +' })" class="md-button " >Create Order</a>';
-        }else{
-            return "Customer Picked up";
-        }
+          return '<a  ui-sref="quoteEdit({\'quote_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
       })
     ];
 
@@ -291,40 +284,128 @@ angular.module('iklinikPosApp')
          return $filter('currency')(data.price_net);
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Pickup Time')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), "dd.MM.yyyy HH:mm")  + '</span>';
+         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), 'dd.MM.yyyy HH:mm')  + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
-          return '<span class="label label-warning">Repair Open</span>';
+          return '<span class="label label-warning">Quote Open</span>';
         }else if (data.state===1) {
-          return '<span class="label label-success">Repair Done</span>';
+          return '<span class="label label-success">Quote Done</span>';
         }else {
-          return '<span class="label label-danger">Repair Complete</span>';
-        }
-      }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
-        if (data.state===0) {
-            return '<a  ui-sref="repairEdit({\'repair_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
-        }else if (data.state===1) {
-            return '<a  ui-sref="repairOrder({\'repair_id\':'+ data.id +' })" class="md-button " >Create Order</a>';
-        }else{
-            return "Customer Picked up";
+          return '<span class="label label-danger">Quote Complete</span>';
         }
       })
     ];
 
-    $scope.updateRepairDet = function() {
+    $scope.ctable = {};
+
+    $scope.ctable.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+      var defer = $q.defer();
+      QuoteService.getCList().then(function(result) {
+        defer.resolve(result.data.content);
+      });
+      return defer.promise;
+    }).withPaginationType('full_numbers').withOption('fnRowCallback',
+     function (nRow) {
+        $compile(nRow)($scope);
+     });
+
+    $scope.ctable.dtColumns = [
+      DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
+      DTColumnBuilder.newColumn('branch.name').withTitle($filter('translate')('Branch Name')),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Customer')).renderWith(function(data) {
+         return data.customer.first_name + ' ' + data.customer.last_name;
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Employee')).renderWith(function(data) {
+         return data.user.first_name + ' ' + data.user.last_name;
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Model')).renderWith(function(data) {
+          var prds = "<span style='padding:0px 10px;'>";
+          for (var i = 0; i < data.products.length; i++) {
+            if (i>0) {
+              prds+=',';
+            }
+            prds += data.products[i].name;
+          }
+         return prds+'</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Price')).renderWith(function(data) {
+         return $filter('currency')(data.price_net);
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
+         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), 'dd.MM.yyyy HH:mm') + '</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
+        if (data.state===0) {
+          return '<span class="label label-warning">Quote Open</span>';
+        }else if (data.state===1) {
+          return '<span class="label label-success">Quote Done</span>';
+        }else {
+          return '<span class="label label-danger">Quote Complete</span>';
+        }
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
+        return '<a  ui-sref="quoteConfirmEdit({\'quote_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
+      })
+    ];
+
+    $scope.updateQuoteDet = function() {
         var data = {
-          repair_id: $scope.Repair.RecItem.id,
-          udesc: $scope.Repair.RecItem.user_description
+          quote_id: $scope.Quote.RecItem.id,
+          udesc: $scope.Quote.RecItem.user_description,
+          products: $scope.products.selectedProductList,
+          params: $scope.params
         };
 
-        QuoteService.updateRepair(data).then(function(success) {
+        QuoteService.updateQuote(data).then(function(success) {
           if(success.httpState === 200) {
-            $state.go('repairList');
+            $state.go('quoteList');
+          } else {
+            $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
+            console.log(success);
+          }
+        }, function(error) {
+          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
+          console.log(error);
+        });
+    };
+
+    $scope.delineQuoteDet = function() {
+        var data = {
+          quote_id: $scope.Quote.RecItem.id,
+          description: $scope.Quote.RecItem.customer_description
+        };
+
+        QuoteService.declineQuote(data).then(function(success) {
+          if(success.httpState === 201) {
+            $scope.isQuoteDeclined = true;
+            $scope.orderId = success.data.order.id;
+            $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.order.creationSuccess',{quoteId: $filter('quote')($scope.orderId)})});
+          } else {
+            $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
+            console.log(success);
+          }
+        }, function(error) {
+          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
+          console.log(error);
+        });
+    };
+
+    $scope.confirmQuoteDet = function() {
+        var data = {
+          quote_id: $scope.Quote.RecItem.id,
+          pickuptime: $scope.Quote.RecItem.pickup_time,
+          description: $scope.Quote.RecItem.customer_description
+        };
+
+        QuoteService.confirmQuote(data).then(function(success) {
+          if(success.httpState === 201) {
+            $scope.isQuoteConfirmed = true;
+            $scope.repairId = success.data.repair.id;
+            $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.repair.creationSuccess',{quoteId: $filter('quote')($scope.repairId)})});
           } else {
             $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
             console.log(success);
@@ -355,8 +436,7 @@ angular.module('iklinikPosApp')
 
     function initData() {
       if($scope.quoteId === 0) {
-        $scope.isRepairSettled = false;
-        $scope.quoteId = 0;
+        $scope.isQuoteSettled = false;
         $scope.customer = {data: [], selected: {}};
         $scope.selectedSmartphone = {device: {}, imei:''};
         $scope.selectedImei = '';
@@ -401,11 +481,19 @@ angular.module('iklinikPosApp')
       }
     };
 
-    $scope.OprintEmployeePDF = function() {
+    $scope.printCnfEmployeePDF = function() {
+      $window.open(HttpService.getApiEndpoint() + '/repair-pdf-internal/' + $scope.repairId + '?token=' + AuthService.getToken(), '_blank');
+    };
+
+    $scope.printCnfCustomerPDF = function() {
+      $window.open(HttpService.getApiEndpoint() + '/repair-pdf-external/' + $scope.repairId + '?token=' + AuthService.getToken(), '_blank');
+    };
+
+    $scope.printDecEmployeePDF = function() {
       $window.open(HttpService.getApiEndpoint() + '/order-pdf-internal/' + $scope.orderId + '?token=' + AuthService.getToken(), '_blank');
     };
 
-    $scope.OprintCustomerPDF = function() {
+    $scope.printDecCustomerPDF = function() {
       $window.open(HttpService.getApiEndpoint() + '/order-pdf-external/' + $scope.orderId + '?token=' + AuthService.getToken(), '_blank');
     };
 
