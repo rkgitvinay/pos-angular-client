@@ -398,7 +398,6 @@ angular.module('iklinikPosApp')
     $scope.completeRepair = function() {
       if(validation()) {
         var branch = BranchService.readSelectedBranch();
-        console.log($scope.pickupTime);
         var str1 = JSON.parse(JSON.stringify($scope.pickupTime));
         var dt1   = parseInt(str1.substring(0,2));
         var mon1  = parseInt(str1.substring(3,5));

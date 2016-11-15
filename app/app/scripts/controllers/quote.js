@@ -43,94 +43,8 @@ angular.module('iklinikPosApp')
       }else if ($state.current.name ==='quoteConfirmEdit') {
         initQuote();
         //updateCallback($stateParams.id);
-      }else if ($state.current.name ==='quoteOrder') {
-        $scope.order = {};
-        initQuote($scope.initOrderData);
       }
     });
-
-    $scope.initOrderData = function(){
-      $scope.order = $scope.Repair.RecItem;
-      $scope.isOrderSettled = false;
-      $scope.orderId = 0;
-
-      if ($scope.order.params.discount!==undefined) {
-          $scope.products.discount = $scope.order.params.discount;
-      }
-      $scope.products.selected = $scope.order.products;
-      $scope.products.selectedProductList =  $scope.order.products;
-      $scope.customer = {data: [], selected: $scope.order.customer};
-      $scope.selectedSmartphone = $scope.order.selection_params;
-
-      $scope.selectedImei = $scope.order.selection_params.imei;
-      $scope.selectedPayment.method = $scope.order.payment_method;
-      $scope.notes = {internal: '', external: ''};
-      $scope.params = $scope.order.params;
-    };
-
-    function ovalidation() {
-      $scope.alerts = [];
-
-      if($scope.products.selected.length < 1) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.addProducts')});
-        return false;
-      }
-
-      if($scope.customer.selected.id === undefined) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.addCustomer')});
-        return false;
-      }
-
-      if($scope.selectedSmartphone.device.id === undefined) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.selectSmartphone')});
-        return false;
-      }
-
-      if($scope.selectedSmartphone.imei === '') {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.addImei')});
-        return false;
-      }
-
-      if($scope.selectedPayment.method.id === undefined) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.selectPaymentMethod')});
-        return false;
-      }
-
-      return true;
-    }
-
-    $scope.completeOrder = function() {
-      if(ovalidation()) {
-        var branch = BranchService.readSelectedBranch();
-
-        $scope.params.discount = $scope.products.discount;
-        var data = {
-          repair_id:$scope.order.id,
-          branch: branch,
-          products: $scope.products.selectedProductList,
-          customer: $scope.customer,
-          notes: $scope.notes,
-          selectedSmartphone: $scope.selectedSmartphone,
-          selectedPaymentMethod: $scope.selectedPayment.method,
-          params: $scope.params
-        };
-
-        QuoteService.addQuoteOrder(data).then(function(success) {
-          if(success.httpState === 201) {
-            $scope.isOrderSettled = true;
-            $scope.orderId = success.data.order.id;
-
-            $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.order.creationSuccess',{orderId: $filter('order')($scope.orderId)})});
-          } else {
-            $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.creationFail')});
-            console.log(success);
-          }
-        }, function(error) {
-          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.creationFail')});
-          console.log(error);
-        });
-      }
-    };
 
 
     $scope.Quote.CList = {};
@@ -188,25 +102,10 @@ angular.module('iklinikPosApp')
       }
     };
 
-    /*function initList() {
-      RepairService.getList().then(function(success) {
-        if(success.httpState === 200) {
-          $scope.Repair.List = success.data.content;
 
-        } else {
-          $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
-          console.log(success);
-        }
-      }, function(error) {
-        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
-        console.log(error);
-      });
-    }*/
-
-
-        ProductGroups.get().then(function(result) {
-          $scope.productGroups = result;
-        });
+    ProductGroups.get().then(function(result) {
+      $scope.productGroups = result;
+    });
 
     $scope.table = {};
 
@@ -286,9 +185,6 @@ angular.module('iklinikPosApp')
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Pickup Time')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), 'dd.MM.yyyy HH:mm')  + '</span>';
-      }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
           return '<span class="label label-warning">Quote Open</span>';
@@ -352,7 +248,33 @@ angular.module('iklinikPosApp')
       })
     ];
 
+    function qvalidation() {
+      $scope.alerts = [];
+      if($scope.Quote.RecItem.pickup_time === undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.pickupTime')});
+        return false;
+      }
+
+      return true;
+    }
+
+    function uvalidation() {
+      $scope.alerts = [];
+
+      if($scope.products.selected.length < 1) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.addProducts')});
+        return false;
+      }
+
+      if($scope.params === undefined) {
+        $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.order.addProducts')});
+        return false;
+      }
+
+      return true;
+    }
     $scope.updateQuoteDet = function() {
+      if (uvalidation()) {
         var data = {
           quote_id: $scope.Quote.RecItem.id,
           udesc: $scope.Quote.RecItem.user_description,
@@ -371,6 +293,7 @@ angular.module('iklinikPosApp')
           $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
           console.log(error);
         });
+      }
     };
 
     $scope.delineQuoteDet = function() {
@@ -395,6 +318,14 @@ angular.module('iklinikPosApp')
     };
 
     $scope.confirmQuoteDet = function() {
+      if (qvalidation()) {
+        var str1 = JSON.parse(JSON.stringify($scope.Quote.RecItem.pickup_time));
+        var dt1   = parseInt(str1.substring(0,2));
+        var mon1  = parseInt(str1.substring(3,5));
+        var yr1   = parseInt(str1.substring(6,10));
+        var h1   = parseInt(str1.substring(11,13));
+        var m1   = parseInt(str1.substring(14,16));
+        $scope.Quote.RecItem.pickup_time = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
         var data = {
           quote_id: $scope.Quote.RecItem.id,
           pickuptime: $scope.Quote.RecItem.pickup_time,
@@ -414,6 +345,7 @@ angular.module('iklinikPosApp')
           $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
           console.log(error);
         });
+      }
     };
 
 
@@ -438,7 +370,7 @@ angular.module('iklinikPosApp')
       if($scope.quoteId === 0) {
         $scope.isQuoteSettled = false;
         $scope.customer = {data: [], selected: {}};
-        $scope.selectedSmartphone = {device: {}, imei:''};
+        $scope.selectedSmartphone = {device: {}, capacity: {}, color: {}, imei:''};
         $scope.selectedImei = '';
         $scope.deviceHealth = {waterImpact: {}, impact: {}, externalImpact: {}};
       } else {
@@ -533,17 +465,17 @@ angular.module('iklinikPosApp')
         return false;
       }
 
-      if($scope.deviceHealth.waterImpact === undefined) {
+      if($scope.deviceHealth.waterImpact.value === undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
         return false;
       }
 
-      if($scope.deviceHealth.impact === undefined) {
+      if($scope.deviceHealth.impact.value === undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
         return false;
       }
 
-      if($scope.deviceHealth.externalImpact === undefined) {
+      if($scope.deviceHealth.externalImpact.value === undefined) {
         $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.deviceHealth')});
         return false;
       }

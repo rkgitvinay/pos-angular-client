@@ -11,7 +11,7 @@
   </div>
   <div ng-if="imeiSelection" class="form-group">
     <label for="sel2" ng-bind-html="'order.selectImei' | translate"></label>
-    <input class="form-control input-sm" type="text" ng-model="selectedSmartphone.imei" required maxlength="16">
+    <input class="form-control input-sm" type="text" ng-model="selectedSmartphone.imei" required maxlength="15">
     <div ng-messages="selectedSmartphone.imei.$error" role="alert" multiple>
         <div ng-message="required" class="my-message">You must supply a IMIE Number .</div>
         <div ng-message="pattern" class="my-message">That doesn't look like a valid Imie

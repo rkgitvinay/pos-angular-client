@@ -1,5 +1,12 @@
 <div ng-controller="QuoteCtrl" >
   <md-content ng-hide='isQuoteConfirmed || isQuoteDeclined' class="" flex="100" layout="row" layout-wrap>
+
+    <hr>
+    <div flex="100" class="">
+      <div class="col-md-12">
+        <alerts alerts="alerts"></alerts>
+      </div>
+    </div>
     <div flex="50">
       <md-list flex>
          <md-subheader class="md-no-sticky">Quote Details</md-subheader>
