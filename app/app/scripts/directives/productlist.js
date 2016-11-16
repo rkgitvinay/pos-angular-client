@@ -122,7 +122,8 @@ angular.module('iklinikPosApp')
       scope: {
         products: '=',
         total: '=',
-        isplistset: '='
+        isplistset: '=',
+        hidesiscountopt: '='
       },
       link: function postLink(scope, element, attrs) {
         scope.productList = {selected: []};
@@ -161,7 +162,7 @@ angular.module('iklinikPosApp')
             });
           });
         };
-
+        
         scope.$watch('products.selected', function(value) {
           if (!scope.isplistset) {
             if(scope.products.selected.product_name !== undefined) {

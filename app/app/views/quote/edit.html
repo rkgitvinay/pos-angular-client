@@ -1,6 +1,6 @@
 <div ng-controller="QuoteCtrl" >
   <md-content class="" flex="100" layout="row" layout-wrap>
-    <div flex="50">
+    <div class="md-padding" flex="50">
       <div class="row">
         <div class="col-md-8">
           <h1 ng-bind-html="'quote.edit' | translate"></h1>
@@ -23,53 +23,56 @@
           <div class="panel panel-default">
             <div class="panel-heading">{{'order.selected_products' | translate}}</div>
             <div class="panel-body">
-              <product-list products="products" total="params.total"></product-list>
+              <product-list products="products" hidesiscountopt="true" total="params.total"></product-list>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div flex="50">
-      <md-list flex>
-         <md-subheader class="md-no-sticky">Quote Details</md-subheader>
-         <md-list-item class="md-1-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Quote Id : {{Quote.RecItem.id | quote}}</h4>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-1-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Branch Name : {{Quote.RecItem.branch.name}}</h4>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-1-line">
-           <div class="md-list-item-text" layout="column">
-             <h4>Customer Name : {{Quote.RecItem.customer.first_name}} {{Quote.RecItem.customer.last_name}}</h4>
-           </div>
-         </md-list-item>
-       </md-list>
-       <md-list flex>
-          <md-subheader class="md-no-sticky">Phone Details</md-subheader>
-          <md-list-item class="md-2-line">
-            <div class="md-list-item-text" layout="column">
-              <h4>Model: {{Quote.RecItem.selection_params.device.value}}</h4>
-              <p>IMEi: {{Quote.RecItem.selection_params.imei}}, Color: {{Quote.RecItem.selection_params.color.value}}, Capacity: {{Quote.RecItem.selection_params.capacity.value}}</p>
+    <div class="md-padding" flex="50">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-right" >Quote Id: {{Quote.RecItem.id | quote}}</h1>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.details' | translate}}</div>
+            <div class="panel-body">
+              <div class="form-group">
+                <h4>Branch Name : {{Quote.RecItem.branch.name}}</h4>
+              </div>
+              <div class="form-group">
+                <h4>Customer Name : {{Quote.RecItem.customer.first_name}} {{Quote.RecItem.customer.last_name}}</h4>
+              </div>
+              <div class="form-group">
+                <h4>Model: {{Quote.RecItem.selection_params.device.value}}</h4>
+                <p>IMEI: {{Quote.RecItem.selection_params.imei}}, Color: {{Quote.RecItem.selection_params.color.value}}, Capacity: {{Quote.RecItem.selection_params.capacity.value}}</p>
+              </div>
+              <div class="form-group">
+                <h4>Device Health</h4>
+                <p>External Impact: {{Quote.RecItem.device_health['externalImpact']['value']}}, Impact: {{Quote.RecItem.device_health['impact']['value']}}, Water Impact: {{Quote.RecItem.device_health['waterImpact']['value']}}</p>
+              </div>
             </div>
-          </md-list-item>
-          <md-list-item class="md-2-line">
-            <div class="md-list-item-text" layout="column">
-              <h4>Device Health</h4>
-              <p>External Impact: {{Quote.RecItem.device_health['externalImpact']['value']}}, Impact: {{Quote.RecItem.device_health['impact']['value']}}, Water Impact: {{Quote.RecItem.device_health['waterImpact']['value']}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">{{'order.notes' | translate}}</div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label>Quote Update</label>
+                <input type="text" required name="clientName" class="form-control" ng-model="Quote.RecItem.user_description"/>
+              </div>
             </div>
-          </md-list-item>
-         <md-subheader class="md-no-sticky">Enter Quote Update</md-subheader>
-          <md-list-item >
-            <md-input-container flex="100">
-              <label>Quote Update</label>
-              <input required name="clientName" ng-model="Quote.RecItem.user_description">
-            </md-input-container>
-          </md-list-item>
-        </md-list>
+          </div>
+        </div>
+      </div>
     </div>
     <div flex="100" layout="row" layout-align="center center">
       <div class="">

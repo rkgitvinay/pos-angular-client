@@ -1,5 +1,5 @@
 
-<div ng-controller="RepairCtrl as rpCtrl" >
+<div ng-controller="QuoteCtrl as qtCtrl" >
   <div ng-hide="showCallbackDet">
     <div class="row">
       <div class="col-md-8">
@@ -12,31 +12,31 @@
     <hr>
     <div class="row">
       <div class="col-md-12">
-        <table datatable="" dt-options="Repair.CList.dtOptions" dt-columns="Repair.CList.dtColumns" class="row-border hover"></table>
+        <table datatable="" dt-options="Quote.CQList.dtOptions" dt-columns="Quote.CQList.dtColumns" class="row-border hover"></table>
       </div>
     </div>
   </div>
   <md-content class="showCallbackDet" layout="row" layout-wrap ng-show="showCallbackDet">
     <div flex="50">
       <md-list flex>
-         <md-subheader class="md-no-sticky">Repair Details</md-subheader>
+         <md-subheader class="md-no-sticky">Quote Details</md-subheader>
          <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Repair Id : {{Repair.RecItem.id | repair}}</h4>
+             <h4>Quote Id : {{Quote.RecItem.id | repair}}</h4>
            </div>
          </md-list-item>
          <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Branch Name : {{Repair.RecItem.branch.name}}</h4>
+             <h4>Branch Name : {{Quote.RecItem.branch.name}}</h4>
            </div>
          </md-list-item>
          <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Customer Name : {{Repair.RecItem.customer.first_name}} {{Repair.RecItem.customer.last_name}}</h4>
+             <h4>Customer Name : {{Quote.RecItem.customer.first_name}} {{Quote.RecItem.customer.last_name}}</h4>
            </div>
          </md-list-item>
         <md-subheader class="md-no-sticky">Product Details</md-subheader>
-        <md-list-item class="md-2-line" ng-repeat="product in Repair.RecItem.products" ng-click="null">
+        <md-list-item class="md-2-line" ng-repeat="product in Quote.RecItem.products" ng-click="null">
           <div class="md-list-item-text" >
             <h4> {{ product.name }} </h4>
             <p> {{ product.quantity }} </p>
@@ -50,34 +50,20 @@
          <md-subheader class="md-no-sticky">Phone Details</md-subheader>
          <md-list-item class="md-2-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Model: {{Repair.RecItem.selection_params.device.value}}</h4>
-             <p>IMEi: {{Repair.RecItem.selection_params.imei}}, Color: {{Repair.RecItem.selection_params.color.value}}, Capacity: {{Repair.RecItem.selection_params.capacity.value}}</p>
+             <h4>Model: {{Quote.RecItem.selection_params.device.value}}</h4>
+             <p>IMEI: {{Quote.RecItem.selection_params.imei}}, Color: {{Quote.RecItem.selection_params.color.value}}, Capacity: {{Quote.RecItem.selection_params.capacity.value}}</p>
            </div>
          </md-list-item>
          <md-list-item class="md-2-line">
            <div class="md-list-item-text" layout="column">
              <h4>Device Health</h4>
-             <p>External Impact: {{Repair.RecItem.device_health['externalImpact']['value']}}, Impact: {{Repair.RecItem.device_health['impact']['value']}}, Water Impact: {{Repair.RecItem.device_health['waterImpact']['value']}}</p>
+             <p>External Impact: {{Quote.RecItem.device_health['externalImpact']['value']}}, Impact: {{Quote.RecItem.device_health['impact']['value']}}, Water Impact: {{Quote.RecItem.device_health['waterImpact']['value']}}</p>
            </div>
          </md-list-item>
          <md-list-item class="md-2-line">
            <div class="md-list-item-text" layout="column">
              <h4>{{'repair.note' | translate}} </h4>
-             <p>{{Repair.RecItem.repair_description}}</p>
-           </div>
-         </md-list-item>
-         <md-list-item class="md-1-line">
-           <div>
-             <label>Pickup Date/Time</label>
-             <!--<input mdc-datetime-picker="" format="DD.MM.YYYY HH:mm" date="true" time="true" type="text"
-             placeholder="Date" min-date="nowTime" ng-model="Repair.RecItem.pickup_time" class=" md-input"
-             id="DTinput_0">-->
-             <input class="form-control"
-                ng-model="Repair.RecItem.pickup_time"
-                ng-model-options="{ updateOn: 'blur' }"
-                placeholder="Select a Pickup Time..."
-                format="DD.MM.YYYY HH:mm"
-                moment-picker="Repair.RecItem.pickup_time">
+             <p>{{Quote.RecItem.quote_description}}</p>
            </div>
          </md-list-item>
     </div>

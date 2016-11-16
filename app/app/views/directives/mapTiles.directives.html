@@ -18,7 +18,7 @@
           <div ng-repeat="nOL in getNumber(numberOfLines) track by $index" class="row" style="padding-right: 0px; padding-left: 0px;">
             <div ng-repeat="nEpL in getNumber(numberOfElementsPerLine) track by $index" class="col-md-{{columnLength}}" style="padding-right: 0px; padding-left: 0px;">
               <div class="map-tiles-box" ng-click="goIntoMatrix($parent.$index, $index)" ng-show="productMatrix[$parent.$index][$index] !== undefined">
-                <img src="{{productMatrix[$parent.$index][$index].image_url}}" class="map-tiles-size">
+                <img ng-src="{{productMatrix[$parent.$index][$index].image_url}}" class="map-tiles-size">
                 <br>
                 <h5>{{productMatrix[$parent.$index][$index].name}}</h5>
               </div>

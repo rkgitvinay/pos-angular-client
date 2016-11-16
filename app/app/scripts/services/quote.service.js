@@ -57,7 +57,7 @@ angular.module('iklinikPosApp')
 
     function updateCallback(data) {
       var defer = $q.defer();
-      HttpService.PUT(data, '/callbackupdate').then(function(success) {
+      HttpService.PUT(data, '/callbackupdateq').then(function(success) {
         defer.resolve(success);
       }, function(error) {
         defer.reject(error);
@@ -122,7 +122,7 @@ angular.module('iklinikPosApp')
 
     function getcallbackList() {
       var defer = $q.defer();
-      HttpService.GET('/callbacklist').then(function(success) {
+      HttpService.GET('/callbacklistq').then(function(success) {
         defer.resolve(success);
       }, function(error) {
         defer.reject(error);

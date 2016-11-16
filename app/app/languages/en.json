@@ -167,7 +167,8 @@
     "completed": "Completed Quote",
     "confirm": "Confirm Quote",
     "edit": "Edit Quote",
-    "note": "Quote description"
+    "note": "Quote description",
+    "callback" : "Callback List"
   },
   "save": "Save",
   "saveAndApply": "Save & apply",
