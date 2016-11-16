@@ -89,7 +89,7 @@ angular.module('iklinikPosApp')
       if ($stateParams.id!==undefined) {
         QuoteService.updateCallback({id:$stateParams.id,quote_id:$scope.Quote.RecItem.id}).then(function(success) {
           if(success.httpState === 200) {
-            $state.go('callbackList');
+            $state.go('callbackListq');
           } else {
             $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.listFail')});
             console.log(success);
