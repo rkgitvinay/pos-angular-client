@@ -21,7 +21,7 @@ angular.module('iklinikPosApp')
       return defer.promise;
     }
 
-    function addQuoteOrder(data) {
+    function updateQuoteOrder(data) {
       var defer = $q.defer();
       HttpService.POST(data, '/quoteorder').then(function(success) {
         defer.resolve(success);
@@ -142,6 +142,6 @@ angular.module('iklinikPosApp')
       updateQuote: updateQuote,
       getcallbackList: getcallbackList,
       updateCallback: updateCallback,
-      addQuoteOrder: addQuoteOrder
+      updateQuoteOrder: updateQuoteOrder
     };
   });

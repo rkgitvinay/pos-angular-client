@@ -3,10 +3,10 @@
   <div ng-hide="showCallbackDet">
     <div class="row">
       <div class="col-md-8">
-        <h1 ng-bind-html="'Repair List' | translate"></h1>
+        <h1 ng-bind-html="'Callback List' | translate"></h1>
       </div>
       <div class="col-md-4 buttons-right">
-        <button class="btn btn-default pull-right" type="button" ng-bind-html="'repair.create' | translate" ui-sref="repairCreate()"></button>
+        <button class="btn btn-default pull-right" type="button" ng-bind-html="'quote.create' | translate" ui-sref="quoteCreate()"></button>
       </div>
     </div>
     <hr>
@@ -22,7 +22,7 @@
          <md-subheader class="md-no-sticky">Quote Details</md-subheader>
          <md-list-item class="md-1-line">
            <div class="md-list-item-text" layout="column">
-             <h4>Quote Id : {{Quote.RecItem.id | repair}}</h4>
+             <h4>Quote Id : {{Quote.RecItem.id | quote}}</h4>
            </div>
          </md-list-item>
          <md-list-item class="md-1-line">
