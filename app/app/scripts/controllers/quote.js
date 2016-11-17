@@ -9,7 +9,7 @@
  */
 angular.module('iklinikPosApp')
   .controller('QuoteCtrl', function ( $scope, $state, ProductGroups, OrderService, $compile, $filter, $mdDialog, $window, QuoteService, $stateParams, BranchService, HttpService, AuthService, DTOptionsBuilder, DTColumnBuilder, $q) {
-    $scope.options = {isRepair: true};
+    $scope.options = {isRepair: true, isCustSet:true};
     $scope.quoteId=0;
 
     $scope.alerts = [];
@@ -65,7 +65,7 @@ angular.module('iklinikPosApp')
       $scope.products.selectedProductList =  $scope.order.products;
       $scope.customer = {data: [], selected: $scope.Quote.RecItem.customer};
       $scope.selectedSmartphone = $scope.order.selection_params;
-
+      $scope.notificationindex = $scope.Quote.RecItem.notification_state;
       $scope.selectedImei = $scope.order.selection_params.imei;
       $scope.selectedPayment.method = $scope.order.payment_method;
       $scope.notes = {internal: '', external: ''};

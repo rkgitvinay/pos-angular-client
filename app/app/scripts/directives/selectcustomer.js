@@ -82,13 +82,27 @@ angular.module('iklinikPosApp')
       restrict: 'E',
       scope: {
         customer: '=',
-        options: '='
+        options: '=',
+        notificationindex: '=',
+        iscustset: '='
       },
       link: function postLink(scope, element, attrs) {
         scope.table = {};
         scope.search = {string:'', isLoading: false};
 
         //scope.customer.selected = {"id":3,"type":"private","sex":"male","first_name":"Hanspeter22","last_name":"Trösch","company_name":"","address_line_one":"Bahnhofstrasse 45","address_line_two":"","zip":"8001","city":"Zürich","country":"CH","phone":"","mobile":"+41763321459","email":"mail@xorox.io","created_at":"2016-10-10 07:03:35","updated_at":"2016-10-10 08:44:18"};
+
+        scope.$watch('customer', function(value) {
+          if (scope.iscustset && scope.customer!==undefined) {
+            console.log(scope.customer);
+            console.log(scope.notificationindex);
+            if (scope.customer.selected.id!==undefined) {
+              scope.customer.selected.notification = notificationMethod(scope.customer.selected.email, scope.customer.selected.mobile);
+              scope.customer.selected.notificationIndex = scope.customer.selected.notification[scope.notificationindex];
+              scope.iscustset = false;
+            }
+          }
+        }, true);
 
         scope.searchCustomer = function() {
           ModalService.showModal({
