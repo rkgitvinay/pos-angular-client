@@ -161,7 +161,9 @@ angular.module('iklinikPosApp')
           return "<span style='padding:0px 10px;' >"+ data.text +"</span>";
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+        var cd = moment.utc(data.created_at);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Done')).renderWith(function(data) {
           return '<a  ui-sref="callbackQUpdate({\'id\':'+ data.id +' , \'quote_id\':'+ data.quote_id +'})" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
@@ -210,7 +212,9 @@ angular.module('iklinikPosApp')
           return "<span style='padding:0px 10px;' >"+ data.text +"</span>";
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+        var cd = moment.utc(data.created_at);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Done')).renderWith(function(data) {
           return '<a  ui-sref="callbackUpdate({\'id\':'+ data.id +' , \'repair_id\':'+ data.repair_id +'})" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
@@ -245,7 +249,9 @@ angular.module('iklinikPosApp')
          return data.user.first_name + ' ' + data.user.last_name;
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+        var cd = moment.utc(data.created_at);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
@@ -298,7 +304,9 @@ angular.module('iklinikPosApp')
          return $filter('currency')(data.price_net);
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), 'dd.MM.yyyy HH:mm') + '</span>';
+        var cd = moment.utc(data.created_at);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
@@ -356,7 +364,9 @@ angular.module('iklinikPosApp')
          return $filter('currency')(data.price_net);
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), 'dd.MM.yyyy HH:mm') + '</span>';
+        var cd = moment.utc(data.created_at);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
@@ -450,7 +460,7 @@ angular.module('iklinikPosApp')
         var yr1   = parseInt(str1.substring(6,10));
         var h1   = parseInt(str1.substring(11,13));
         var m1   = parseInt(str1.substring(14,16));
-        $scope.pickupTime = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
+        $scope.pickupTime = new Date(moment.utc(new Date(yr1, mon1-1, dt1, h1, m1)));
         var data = {
           quote_id: $scope.Quote.RecItem.id,
           pickuptime: $scope.pickupTime,
@@ -479,6 +489,7 @@ angular.module('iklinikPosApp')
       QuoteService.getQuote($stateParams.quote_id).then(function(success) {
         if(success.httpState === 200) {
           $scope.Quote.RecItem = success.data.content;
+          $scope.Quote.RecItem.created_at = new Date(moment(moment.utc($scope.Quote.RecItem.created_at)).local());
           if (clf!==undefined) {
             clf();
           }

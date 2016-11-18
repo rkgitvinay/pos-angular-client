@@ -158,7 +158,9 @@ angular.module('iklinikPosApp')
           return "<span style='padding:0px 10px;' >"+ data.text +"</span>";
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
+        var cd = moment.utc(data.created_at);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Done')).renderWith(function(data) {
           return '<a  ui-sref="callbackUpdate({\'id\':'+ data.id +' , \'repair_id\':'+ data.repair_id +'})" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
@@ -174,7 +176,7 @@ angular.module('iklinikPosApp')
         var yr1   = parseInt(str1.substring(6,10));
         var h1   = parseInt(str1.substring(11,13));
         var m1   = parseInt(str1.substring(14,16));
-        $scope.Repair.RecItem.pickup_time = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
+        $scope.pickupTime = new Date(moment.utc(new Date(yr1, mon1-1, dt1, h1, m1)));
         RepairService.updateCallback({id:$stateParams.id,repair_id:$scope.Repair.RecItem.id,pickuptime:$scope.Repair.RecItem.pickup_time}).then(function(success) {
           if(success.httpState === 200) {
             $state.go('callbackList');
@@ -248,7 +250,9 @@ angular.module('iklinikPosApp')
          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Pickup Time')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), "dd.MM.yyyy HH:mm")  + '</span>';
+          var cd = moment.utc(data.pickup_time);
+          var lcltime = moment(cd).local();
+          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), "dd.MM.yyyy HH:mm")  + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
@@ -310,7 +314,9 @@ angular.module('iklinikPosApp')
          return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.created_at), "dd.MM.yyyy HH:mm") + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Pickup Time')).renderWith(function(data) {
-         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(data.pickup_time), "dd.MM.yyyy HH:mm")  + '</span>';
+        var cd = moment.utc(data.pickup_time);
+        var lcltime = moment(cd).local();
+        return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), "dd.MM.yyyy HH:mm")  + '</span>';
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
@@ -356,7 +362,8 @@ angular.module('iklinikPosApp')
       RepairService.getRepair($stateParams.repair_id).then(function(success) {
         if(success.httpState === 200) {
           $scope.Repair.RecItem = success.data.content;
-          $scope.Repair.RecItem.pickup_time = new Date($scope.Repair.RecItem.pickup_time);
+            $scope.Repair.RecItem.created_at = new Date(moment(moment.utc($scope.Repair.RecItem.created_at)).local());
+            $scope.Repair.RecItem.pickup_time = new Date(moment(moment.utc($scope.Repair.RecItem.pickup_time)).local());
           if (clf!==undefined) {
             clf();
           }
@@ -404,7 +411,7 @@ angular.module('iklinikPosApp')
         var yr1   = parseInt(str1.substring(6,10));
         var h1   = parseInt(str1.substring(11,13));
         var m1   = parseInt(str1.substring(14,16));
-        $scope.pickupTime = new Date(Date.UTC(yr1, mon1-1, dt1, h1, m1));
+        $scope.pickupTime = new Date(moment.utc(new Date(yr1, mon1-1, dt1, h1, m1)));
         $scope.params.discount = $scope.products.discount;
         var data = {
           branch: branch,
