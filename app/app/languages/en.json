@@ -169,7 +169,8 @@
     "confirm": "Confirm Quote",
     "edit": "Edit Quote",
     "note": "Quote description",
-    "callback" : "Callback List"
+    "callback" : "Callback List",
+    "desc" : "Quote Description"
   },
   "save": "Save",
   "saveAndApply": "Save & apply",

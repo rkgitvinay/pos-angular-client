@@ -48,6 +48,9 @@
                 <h4>Customer Name : {{Quote.RecItem.customer.first_name}} {{Quote.RecItem.customer.last_name}}</h4>
               </div>
               <div class="form-group">
+                <h4>Notification Type : {{Quote.RecItem.notification.name}}({{Quote.RecItem.notification.value}})</h4>
+              </div>
+              <div class="form-group">
                 <h4>Model: {{Quote.RecItem.selection_params.device.value}}</h4>
                 <p>IMEI: {{Quote.RecItem.selection_params.imei}}, Color: {{Quote.RecItem.selection_params.color.value}}, Capacity: {{Quote.RecItem.selection_params.capacity.value}}</p>
               </div>

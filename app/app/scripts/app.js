@@ -212,7 +212,7 @@ angular
       })
 
       .state('callbackQUpdate', {
-        url: '/callback-qupdate/:id/:quote_id',
+        url: '/callback-qupdate/{quote_id}',
         templateUrl: 'views/quote/callback.html',
         controller: 'QuoteCtrl'
       })

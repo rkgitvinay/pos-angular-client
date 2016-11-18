@@ -40,12 +40,9 @@ angular.module('iklinikPosApp')
       }else if ($state.current.name ==='callbackList') {
         $scope.showCallbackDet = false;
         //getCallbacks();
-      }else if ($state.current.name ==='callbackQUpdate') {
+      }else if ($state.current.name ==='quoteConfirmEdit' || $state.current.name ==='callbackQUpdate') {
         initQuote();
         $scope.showCallbackDet = true;
-        //getCallbacks();
-      }else if ($state.current.name ==='quoteConfirmEdit') {
-        initQuote();
         var ndt = new Date();
         var dt = new Date(ndt.getTime() + 1*24*60*60*1000);
         $scope.pickupTime = dt.getDate() + '.' + (dt.getMonth() + 1) + '.' + dt.getFullYear() + " " + dt.getHours() + ":"+ dt.getMinutes();
@@ -154,19 +151,42 @@ angular.module('iklinikPosApp')
 
     $scope.Quote.CQList.dtColumns = [
       DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Number')).renderWith(function(data) {
-          return "<span style='padding:0px 10px;' >"+ data.number +"</span>";
+      DTColumnBuilder.newColumn('branch.name').withTitle($filter('translate')('Branch Name')),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Customer')).renderWith(function(data) {
+         return data.customer.first_name + ' ' + data.customer.last_name;
       }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Text')).renderWith(function(data) {
-          return "<span style='padding:0px 10px;' >"+ data.text +"</span>";
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Employee')).renderWith(function(data) {
+         return data.user.first_name + ' ' + data.user.last_name;
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Model')).renderWith(function(data) {
+          var prds = "<span style='padding:0px 10px;'>";
+          for (var i = 0; i < data.products.length; i++) {
+            if (i>0) {
+              prds+=',';
+            }
+            prds += data.products[i].name;
+          }
+         return prds+'</span>';
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Price')).renderWith(function(data) {
+         return $filter('currency')(data.price_net);
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Created At')).renderWith(function(data) {
         var cd = moment.utc(data.created_at);
         var lcltime = moment(cd).local();
         return "<span style='padding:0px 10px;'>" + $filter('date')(new Date(lcltime), 'dd.MM.yyyy HH:mm') + '</span>';
       }),
-      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Done')).renderWith(function(data) {
-          return '<a  ui-sref="callbackQUpdate({\'id\':'+ data.id +' , \'quote_id\':'+ data.quote_id +'})" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
+        if (data.state===0) {
+          return '<span class="label label-warning">Quote Open</span>';
+        }else if (data.state===1 || data.state===2) {
+          return '<span class="label label-success">Quote Done</span>';
+        }else {
+          return '<span class="label label-danger">Quote Complete</span>';
+        }
+      }),
+      DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
+        return '<a  ui-sref="callbackQUpdate({\'quote_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
       })
     ];
 
@@ -311,16 +331,16 @@ angular.module('iklinikPosApp')
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Status')).renderWith(function(data) {
         if (data.state===0) {
           return '<span class="label label-warning">Quote Open</span>';
-        }else if (data.state===3) {
+        }else if (data.state===4) {
           return '<span class="label label-success">Quote Confirmed</span>';
-        }else if (data.state===2 || data.state===4) {
+        }else if (data.state===3 || data.state===5) {
           return '<span class="label label-danger">Declined quote</span>';
         }
       }),
       DTColumnBuilder.newColumn(null).withTitle($filter('translate')('Process')).renderWith(function(data) {
-        if (data.state===2) {
+        if (data.state===3) {
             return '<a  ui-sref="quoteOrder({\'quote_id\':'+ data.id +' })" class="md-button " ><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i></a>';
-        }else if (data.state===4) {
+        }else if (data.state===5) {
             return "Order Created";
         }else{
             return "Updated to repair";
@@ -440,7 +460,11 @@ angular.module('iklinikPosApp')
           if(success.httpState === 201) {
             $scope.isQuoteDeclined = true;
             $scope.orderId = success.data.order.id;
-            $state.go('quoteConfirm');
+            if ($state.current.name ==='callbackQUpdate') {
+              $state.go('callbackList');
+            }else {
+              $state.go('quoteConfirm');
+            }
             $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.order.creationSuccess',{quoteId: $filter('quote')($scope.orderId)})});
           } else {
             $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.quote.creationFail')});
@@ -471,7 +495,11 @@ angular.module('iklinikPosApp')
           if(success.httpState === 201) {
             $scope.isQuoteConfirmed = true;
             $scope.repairId = success.data.repair.id;
-            $state.go('quoteConfirm');
+            if ($state.current.name ==='callbackQUpdate') {
+              $state.go('callbackList');
+            }else {
+              $state.go('quoteConfirm');
+            }
             $scope.alerts.push({type: 'success', message: $filter('translate')('alerts.repair.creationSuccess',{repairId: $filter('repair')($scope.repairId)})});
           } else {
             $scope.alerts.push({type: 'danger', message: $filter('translate')('alerts.repair.creationFail')});
@@ -490,6 +518,7 @@ angular.module('iklinikPosApp')
         if(success.httpState === 200) {
           $scope.Quote.RecItem = success.data.content;
           $scope.Quote.RecItem.created_at = new Date(moment(moment.utc($scope.Quote.RecItem.created_at)).local());
+          $scope.Quote.RecItem.notification = notificationMethod($scope.Quote.RecItem.customer.email, $scope.Quote.RecItem.customer.mobile)[$scope.Quote.RecItem.notification_state - 1];
           if (clf!==undefined) {
             clf();
           }
@@ -627,5 +656,68 @@ angular.module('iklinikPosApp')
       }
 
       return true;
+    }
+
+    function notificationMethod(email, mobile) {
+      if(email.toString().length === 0 && email.toString().length !== 0) {
+        return [
+          {
+            id: 1,
+            isActive: true,
+            name: 'via mobile',
+            value: mobile
+          },
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback',
+            value: mobile
+          }
+        ];
+      } else if(email.toString().length !== 0 && email.toString().length === 0) {
+        return [
+          {
+            id: 2,
+            isActive: true,
+            name: 'via email',
+            value: email
+          },
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback',
+            value: mobile
+          }
+        ];
+      } else if(email.toString().length !== 0 && email.toString().length !== 0) {
+        return [
+          {
+            id: 1,
+            isActive: true,
+            name: 'via mobile',
+            value: mobile
+          },
+          {
+            id: 2,
+            isActive: false,
+            name: 'via email',
+            value: email
+          },
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback',
+            value: mobile
+          }
+        ];
+      } else {
+        return [
+          {
+            id: 3,
+            isActive: false,
+            name: 'via callback',
+            value: mobile
+          }];
+      }
     }
   });

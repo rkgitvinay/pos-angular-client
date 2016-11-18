@@ -98,7 +98,7 @@ angular.module('iklinikPosApp')
             console.log(scope.notificationindex);
             if (scope.customer.selected.id!==undefined) {
               scope.customer.selected.notification = notificationMethod(scope.customer.selected.email, scope.customer.selected.mobile);
-              scope.customer.selected.notificationIndex = scope.customer.selected.notification[scope.notificationindex];
+              scope.customer.selected.notificationIndex = scope.customer.selected.notification[scope.notificationindex - 1];
               scope.iscustset = false;
             }
           }
