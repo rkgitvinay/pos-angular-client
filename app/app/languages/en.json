@@ -161,6 +161,7 @@
     "note": "Repair description"
   },
   "quote":{
+    "clientWillBeNotified": "Please be aware, that the customer will be notified about the selected repair and the added technician note.",
     "create": "Create Quote",
     "complete": "Complete Quote",
     "details": "Complete Details",
@@ -169,6 +170,7 @@
     "confirm": "Confirm Quote",
     "edit": "Edit Quote",
     "note": "Quote description",
+    "technicanNote": "Technican note",
     "callback" : "Callback List",
     "desc" : "Quote Description"
   },
