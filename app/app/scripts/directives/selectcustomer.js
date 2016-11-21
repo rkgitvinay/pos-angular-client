@@ -17,63 +17,42 @@ angular.module('iklinikPosApp')
       return defer.promise;
     }
 
-    function notificationMethod(email, mobile) {
-      if(email.toString().length === 0 && email.toString().length !== 0) {
-        return [
-          {
-            id: 1,
-            isActive: true,
-            name: 'via mobile',
-            value: mobile
-          },
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback'
-          }
-        ];
-      } else if(email.toString().length !== 0 && email.toString().length === 0) {
-        return [
-          {
-            id: 2,
-            isActive: true,
-            name: 'via email',
-            value: email
-          },
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback'
-          }
-        ];
-      } else if(email.toString().length !== 0 && email.toString().length !== 0) {
-        return [
-          {
-            id: 1,
-            isActive: true,
-            name: 'via mobile',
-            value: mobile
-          },
-          {
-            id: 2,
-            isActive: false,
-            name: 'via email',
-            value: email
-          },
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback'
-          }
-        ];
-      } else {
-        return [
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback'
-          }];
+
+    function notificationMethod(email, mobile, phone) {
+      var ret = [];
+
+      if(mobile.toString().length !== 0) {
+        ret.push({
+          id: 1,
+          isActive: true,
+          name: 'via mobile',
+          value: mobile
+        });
+        ret.push({
+          id: 3,
+          isActive: false,
+          name: 'via callback',
+          value: mobile
+        });
       }
+      else if(phone.toString().length !== 0) {
+        ret.push({
+          id: 3,
+          isActive: false,
+          name: 'via callback',
+          value: phone
+        });
+      }
+
+      if(email.toString().length !== 0) {
+        ret.push({
+          id: 2,
+          isActive: true,
+          name: 'via email',
+          value: email
+        });
+      }
+      return ret;
     }
 
     return {
@@ -97,7 +76,7 @@ angular.module('iklinikPosApp')
             console.log(scope.customer);
             console.log(scope.notificationindex);
             if (scope.customer.selected.id!==undefined) {
-              scope.customer.selected.notification = notificationMethod(scope.customer.selected.email, scope.customer.selected.mobile);
+              scope.customer.selected.notification = notificationMethod(scope.customer.selected.email, scope.customer.selected.mobile, scope.customer.selected.phone);
               scope.customer.selected.notificationIndex = scope.customer.selected.notification[scope.notificationindex - 1];
               scope.iscustset = false;
             }
@@ -115,7 +94,7 @@ angular.module('iklinikPosApp')
             modal.close.then(function(result) {
               if(result.success) {
                 scope.customer.selected = result.customer;
-                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
+                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile, result.customer.phone);
                 scope.customer.selected.notificationIndex = scope.customer.selected.notification[0];
               }
             });
@@ -150,7 +129,7 @@ angular.module('iklinikPosApp')
               },1100);
               if(result.success) {
                 scope.customer.selected = result.customer;
-                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
+                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile, result.customer.phone);
                 scope.customer.selected.notificationIndex = scope.customer.selected.notification[0];
               }
             });
@@ -174,7 +153,7 @@ angular.module('iklinikPosApp')
               },700);
               if(result.success) {
                 scope.customer.selected = result.customer;
-                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile);
+                scope.customer.selected.notification = notificationMethod(result.customer.email, result.customer.mobile, result.customer.phone);
                 scope.customer.selected.notificationIndex = scope.customer.selected.notification[0];
               }
             });

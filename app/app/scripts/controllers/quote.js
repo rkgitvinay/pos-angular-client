@@ -145,7 +145,7 @@ angular.module('iklinikPosApp')
     }).withPaginationType('full_numbers').withOption('fnRowCallback',
      function (nRow) {
         $compile(nRow)($scope);
-     });
+     }).withOption('order', [0, 'desc']);
 
 
 
@@ -219,7 +219,7 @@ angular.module('iklinikPosApp')
     }).withPaginationType('full_numbers').withOption('fnRowCallback',
      function (nRow) {
         $compile(nRow)($scope);
-     });
+     }).withOption('order', [0, 'desc']);
 
 
 
@@ -257,7 +257,7 @@ angular.module('iklinikPosApp')
     }).withPaginationType('full_numbers').withOption('fnRowCallback',
      function (nRow) {
         $compile(nRow)($scope);
-     });
+     }).withOption('order', [0, 'desc']);
 
     $scope.table.dtColumns = [
       DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
@@ -299,7 +299,7 @@ angular.module('iklinikPosApp')
     }).withPaginationType('full_numbers').withOption('fnRowCallback',
      function (nRow) {
         $compile(nRow)($scope);
-     });
+     }).withOption('order', [0, 'desc']);
 
     $scope.htable.dtColumns = [
       DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
@@ -359,7 +359,7 @@ angular.module('iklinikPosApp')
     }).withPaginationType('full_numbers').withOption('fnRowCallback',
      function (nRow) {
         $compile(nRow)($scope);
-     });
+     }).withOption('order', [0, 'desc']);
 
     $scope.ctable.dtColumns = [
       DTColumnBuilder.newColumn('id').withTitle($filter('translate')('id')),
@@ -518,7 +518,7 @@ angular.module('iklinikPosApp')
         if(success.httpState === 200) {
           $scope.Quote.RecItem = success.data.content;
           $scope.Quote.RecItem.created_at = new Date(moment(moment.utc($scope.Quote.RecItem.created_at)).local());
-          $scope.Quote.RecItem.notification = notificationMethod($scope.Quote.RecItem.customer.email, $scope.Quote.RecItem.customer.mobile)[$scope.Quote.RecItem.notification_state - 1];
+          $scope.Quote.RecItem.notification = notificationMethod($scope.Quote.RecItem.customer.email, $scope.Quote.RecItem.customer.mobile, $scope.Quote.RecItem.customer.phone)[$scope.Quote.RecItem.notification_state - 1];
           if (clf!==undefined) {
             clf();
           }
@@ -658,66 +658,40 @@ angular.module('iklinikPosApp')
       return true;
     }
 
-    function notificationMethod(email, mobile) {
-      if(email.toString().length === 0 && email.toString().length !== 0) {
-        return [
-          {
-            id: 1,
-            isActive: true,
-            name: 'via mobile',
-            value: mobile
-          },
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback',
-            value: mobile
-          }
-        ];
-      } else if(email.toString().length !== 0 && email.toString().length === 0) {
-        return [
-          {
-            id: 2,
-            isActive: true,
-            name: 'via email',
-            value: email
-          },
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback',
-            value: mobile
-          }
-        ];
-      } else if(email.toString().length !== 0 && email.toString().length !== 0) {
-        return [
-          {
-            id: 1,
-            isActive: true,
-            name: 'via mobile',
-            value: mobile
-          },
-          {
-            id: 2,
-            isActive: false,
-            name: 'via email',
-            value: email
-          },
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback',
-            value: mobile
-          }
-        ];
-      } else {
-        return [
-          {
-            id: 3,
-            isActive: false,
-            name: 'via callback',
-            value: mobile
-          }];
+    function notificationMethod(email, mobile, phone) {
+      var ret = [];
+
+      if(mobile.toString().length !== 0) {
+        ret.push({
+          id: 1,
+          isActive: true,
+          name: 'via mobile',
+          value: mobile
+        });
+        ret.push({
+          id: 3,
+          isActive: false,
+          name: 'via callback',
+          value: mobile
+        });
       }
+      else if(phone.toString().length !== 0) {
+        ret.push({
+          id: 3,
+          isActive: false,
+          name: 'via callback',
+          value: phone
+        });
+      }
+
+      if(email.toString().length !== 0) {
+        ret.push({
+          id: 2,
+          isActive: true,
+          name: 'via email',
+          value: email
+        });
+      }
+      return ret;
     }
   });
